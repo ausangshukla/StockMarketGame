@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>First name:</strong>
+  </td>
+  <td>
+          <%= @user.first_name %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Last name:</strong>
+  </td>
+  <td>
+          <%= @user.last_name %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Role:</strong>
+  </td>
+  <td>
+          <%= @user.role %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_user_path(@user), class:"btn btn-primary" %> |
+<%= link_to 'Back', users_path, class:"btn btn-primary" %>
+

@@ -1,0 +1,56 @@
+
+<p id="notice" class="alert" role="alert"><%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Orders</h1>
+    <%= link_to 'New Order', new_order_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Side</th>
+      <th>Symbol</th>
+      <th>Security</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Price type</th>
+      <th>Order type</th>
+      <th>Qualifier</th>
+      <th>Linked short cover</th>
+      <th>Filled qty</th>
+      <th>Open qty</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.user_id %></td>
+        <td><%= order.side %></td>
+        <td><%= order.symbol %></td>
+        <td><%= order.security_id %></td>
+        <td><%= order.quantity %></td>
+        <td><%= order.price %></td>
+        <td><%= order.price_type %></td>
+        <td><%= order.order_type %></td>
+        <td><%= order.qualifier %></td>
+        <td><%= order.linked_short_cover_id %></td>
+        <td><%= order.filled_qty %></td>
+        <td><%= order.open_qty %></td>
+        <td><%= order.status %></td>
+        <td>
+          <%= link_to 'Show', order, class: "btn btn-primary" %>
+          <%= link_to 'Edit', edit_order_path(order), class: "btn btn-primary" %>
+          <%= link_to 'Delete', order, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

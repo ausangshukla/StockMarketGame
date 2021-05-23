@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>News type:</strong>
+  </td>
+  <td>
+          <%= @news.news_type %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Details:</strong>
+  </td>
+  <td>
+          <%= @news.details %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_news_path(@news), class:"btn btn-primary" %> |
+<%= link_to 'Back', news_index_path, class:"btn btn-primary" %>
+

@@ -1,0 +1,36 @@
+
+<p id="notice" class="alert" role="alert"><%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Users</h1>
+    <%= link_to 'New User', new_user_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Role</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.role %></td>
+        <td>
+          <%= link_to 'Show', user, class: "btn btn-primary" %>
+          <%= link_to 'Edit', edit_user_path(user), class: "btn btn-primary" %>
+          <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

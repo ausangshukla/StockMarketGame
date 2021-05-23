@@ -1,0 +1,82 @@
+<%= form_with(model: order) do |form| %>
+  <% if order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+        <% order.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" class="form-group">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :side %>
+    <%= form.text_field :side, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :symbol %>
+    <%= form.text_field :symbol, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :security_id %>
+    <%= form.number_field :security_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :price_type %>
+    <%= form.text_field :price_type, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :order_type %>
+    <%= form.text_field :order_type, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :qualifier %>
+    <%= form.text_field :qualifier, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :linked_short_cover_id %>
+    <%= form.number_field :linked_short_cover_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :filled_qty %>
+    <%= form.number_field :filled_qty, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :open_qty %>
+    <%= form.number_field :open_qty, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :status %>
+    <%= form.text_field :status, class: "form-control" %>
+  </div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+<% end %>

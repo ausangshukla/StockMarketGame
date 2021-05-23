@@ -1,0 +1,141 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>User:</strong>
+  </td>
+  <td>
+          <%= @order.user_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Side:</strong>
+  </td>
+  <td>
+          <%= @order.side %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Symbol:</strong>
+  </td>
+  <td>
+          <%= @order.symbol %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Security:</strong>
+  </td>
+  <td>
+          <%= @order.security_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Quantity:</strong>
+  </td>
+  <td>
+          <%= @order.quantity %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Price:</strong>
+  </td>
+  <td>
+          <%= @order.price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Price type:</strong>
+  </td>
+  <td>
+          <%= @order.price_type %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Order type:</strong>
+  </td>
+  <td>
+          <%= @order.order_type %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Qualifier:</strong>
+  </td>
+  <td>
+          <%= @order.qualifier %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Linked short cover:</strong>
+  </td>
+  <td>
+          <%= @order.linked_short_cover_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Filled qty:</strong>
+  </td>
+  <td>
+          <%= @order.filled_qty %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Open qty:</strong>
+  </td>
+  <td>
+          <%= @order.open_qty %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Status:</strong>
+  </td>
+  <td>
+          <%= @order.status %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_order_path(@order), class:"btn btn-primary" %> |
+<%= link_to 'Back', orders_path, class:"btn btn-primary" %>
+

@@ -1,0 +1,121 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>Sec type:</strong>
+  </td>
+  <td>
+          <%= @security.sec_type %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Symbol:</strong>
+  </td>
+  <td>
+          <%= @security.symbol %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Name:</strong>
+  </td>
+  <td>
+          <%= @security.name %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Prev closing price:</strong>
+  </td>
+  <td>
+          <%= @security.prev_closing_price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Opening trade price:</strong>
+  </td>
+  <td>
+          <%= @security.opening_trade_price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Day high price:</strong>
+  </td>
+  <td>
+          <%= @security.day_high_price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Day low price:</strong>
+  </td>
+  <td>
+          <%= @security.day_low_price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Price:</strong>
+  </td>
+  <td>
+          <%= @security.price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Market cap:</strong>
+  </td>
+  <td>
+          <%= @security.market_cap %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Pe:</strong>
+  </td>
+  <td>
+          <%= @security.pe %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Last trade date:</strong>
+  </td>
+  <td>
+          <%= @security.last_trade_date %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_security_path(@security), class:"btn btn-primary" %> |
+<%= link_to 'Back', securities_path, class:"btn btn-primary" %>
+

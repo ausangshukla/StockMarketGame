@@ -1,0 +1,36 @@
+
+<p id="notice" class="alert" role="alert"><%%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"><%= plural_table_name.titleize %></h1>
+    <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+      <th><%= attribute.human_name %></th>
+<% end -%>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+      <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+        <td><%%= <%= singular_table_name %>.<%= attribute.column_name %> %></td>
+<% end -%>
+        <td>
+          <%%= link_to 'Show', <%= model_resource_name %>, class: "btn btn-primary" %>
+          <%%= link_to 'Edit', edit_<%= singular_route_name %>_path(<%= singular_table_name %>), class: "btn btn-primary" %>
+          <%%= link_to 'Delete', <%= model_resource_name %>, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <%% end %>
+  </tbody>
+</table>
+
+

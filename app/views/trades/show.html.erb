@@ -1,0 +1,71 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>Order:</strong>
+  </td>
+  <td>
+          <%= @trade.order_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Symbol:</strong>
+  </td>
+  <td>
+          <%= @trade.symbol %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Quantity:</strong>
+  </td>
+  <td>
+          <%= @trade.quantity %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Price:</strong>
+  </td>
+  <td>
+          <%= @trade.price %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Buyer:</strong>
+  </td>
+  <td>
+          <%= @trade.buyer_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Seller:</strong>
+  </td>
+  <td>
+          <%= @trade.seller_id %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_trade_path(@trade), class:"btn btn-primary" %> |
+<%= link_to 'Back', trades_path, class:"btn btn-primary" %>
+

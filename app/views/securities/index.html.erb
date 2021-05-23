@@ -1,0 +1,52 @@
+
+<p id="notice" class="alert" role="alert"><%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Securities</h1>
+    <%= link_to 'New Security', new_security_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Sec type</th>
+      <th>Symbol</th>
+      <th>Name</th>
+      <th>Prev closing price</th>
+      <th>Opening trade price</th>
+      <th>Day high price</th>
+      <th>Day low price</th>
+      <th>Price</th>
+      <th>Market cap</th>
+      <th>Pe</th>
+      <th>Last trade date</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @securities.each do |security| %>
+      <tr>
+        <td><%= security.sec_type %></td>
+        <td><%= security.symbol %></td>
+        <td><%= security.name %></td>
+        <td><%= security.prev_closing_price %></td>
+        <td><%= security.opening_trade_price %></td>
+        <td><%= security.day_high_price %></td>
+        <td><%= security.day_low_price %></td>
+        <td><%= security.price %></td>
+        <td><%= security.market_cap %></td>
+        <td><%= security.pe %></td>
+        <td><%= security.last_trade_date %></td>
+        <td>
+          <%= link_to 'Show', security, class: "btn btn-primary" %>
+          <%= link_to 'Edit', edit_security_path(security), class: "btn btn-primary" %>
+          <%= link_to 'Delete', security, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

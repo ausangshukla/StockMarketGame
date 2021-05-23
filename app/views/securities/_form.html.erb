@@ -1,0 +1,72 @@
+<%= form_with(model: security) do |form| %>
+  <% if security.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(security.errors.count, "error") %> prohibited this security from being saved:</h2>
+
+      <ul>
+        <% security.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" class="form-group">
+    <%= form.label :sec_type %>
+    <%= form.text_field :sec_type, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :symbol %>
+    <%= form.text_field :symbol, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :prev_closing_price %>
+    <%= form.text_field :prev_closing_price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :opening_trade_price %>
+    <%= form.text_field :opening_trade_price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :day_high_price %>
+    <%= form.text_field :day_high_price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :day_low_price %>
+    <%= form.text_field :day_low_price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :market_cap %>
+    <%= form.text_field :market_cap, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :pe %>
+    <%= form.text_field :pe, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :last_trade_date %>
+    <%= form.datetime_select :last_trade_date, class: "form-control" %>
+  </div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+<% end %>

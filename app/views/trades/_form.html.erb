@@ -1,0 +1,47 @@
+<%= form_with(model: trade) do |form| %>
+  <% if trade.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(trade.errors.count, "error") %> prohibited this trade from being saved:</h2>
+
+      <ul>
+        <% trade.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" class="form-group">
+    <%= form.label :order_id %>
+    <%= form.number_field :order_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :symbol %>
+    <%= form.text_field :symbol, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :buyer_id %>
+    <%= form.number_field :buyer_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :seller_id %>
+    <%= form.number_field :seller_id, class: "form-control" %>
+  </div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+<% end %>
