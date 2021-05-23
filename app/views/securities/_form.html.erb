@@ -13,7 +13,7 @@
 
   <div class="field" class="form-group">
     <%= form.label :sec_type %>
-    <%= form.text_field :sec_type, class: "form-control" %>
+    <%= form.select :sec_type, Security::SEC_TYPES, {}, {class: "form-control"} %>    
   </div>
 
   <div class="field" class="form-group">

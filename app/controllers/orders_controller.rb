@@ -12,7 +12,17 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
+    if order_params[:security_id]
+      sec = Security.where(id: order_params[:security_id]).first
+      if sec
+        @order = Order.new(order_params)
+        @order.symbol = sec.symbol
+      else
+        redirect_to securities_path, notice: "No such security"
+      end
+    else
+      redirect_to securities_path, notice: "No security"
+    end
   end
 
   # GET /orders/1/edit
@@ -22,7 +32,8 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
-
+    @order.user_id = current_user.id
+    
     respond_to do |format|
       if @order.save
         format.html { redirect_to @order, notice: "Order was successfully created." }

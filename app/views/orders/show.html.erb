@@ -9,7 +9,7 @@
     <strong>User:</strong>
   </td>
   <td>
-          <%= @order.user_id %>
+          <%= @order.user.full_name %>
       </td>
 </tr>
 
@@ -30,16 +30,6 @@
   </td>
   <td>
           <%= @order.symbol %>
-      </td>
-</tr>
-
-
-<tr>
-  <td>
-    <strong>Security:</strong>
-  </td>
-  <td>
-          <%= @order.security_id %>
       </td>
 </tr>
 

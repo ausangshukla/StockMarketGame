@@ -41,6 +41,8 @@
         <td><%= security.last_trade_date %></td>
         <td>
           <%= link_to 'Show', security, class: "btn btn-primary" %>
+          <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-primary" %>
+          
           <%= link_to 'Edit', edit_security_path(security), class: "btn btn-primary" %>
           <%= link_to 'Delete', security, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
         </td>
