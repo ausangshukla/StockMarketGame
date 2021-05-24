@@ -6,17 +6,23 @@ class Order < ApplicationRecord
     ORDER_TYPES = ["Normal", "Short", "Short Cover"]
     SIDE_TYPES = ["B", "S"]
     PRICE_TYPES =["Market", "Limit"]
-    STATUS = [  "Open", "Modified", "Cancelled", "Partially Filled", "Filled", 
-                "Partially Filled and Cancelled"]
+    STATUS = [  "Open", "Cancelled" ]
+    FILL_STATUS = ["Filled", "Partially Filled"]
 
 
-
-
+    BUY = "B"
+    SELL = "S"
+    LIMIT = "Limit"
+    MARKET = "Market"
+        
     belongs_to :user
     belongs_to :security
 
     before_create do
         self.status ||= "Open" 
     end
+
+    scope :open, -> { where(status: "Open") }
+
 
 end

@@ -41,8 +41,8 @@ gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
 gem 'rexml'
 gem 'exception_notification'
-
-
+gem 'redis'
+gem 'terminal-table'
 gem "aws-sdk-s3", require: false
 
 

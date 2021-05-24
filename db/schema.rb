@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_23_094321) do
+ActiveRecord::Schema.define(version: 2021_05_24_031307) do
 
   create_table "action_text_rich_texts", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -50,11 +50,27 @@ ActiveRecord::Schema.define(version: 2021_05_23_094321) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "exchanges", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name", limit: 20
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "news", charset: "utf8mb3", force: :cascade do |t|
     t.string "news_type", limit: 30
     t.text "details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "order_books", charset: "utf8mb3", force: :cascade do |t|
+    t.string "symbol", limit: 20
+    t.integer "security_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "exchange_id"
+    t.index ["exchange_id"], name: "index_order_books_on_exchange_id"
+    t.index ["security_id"], name: "index_order_books_on_security_id"
   end
 
   create_table "orders", charset: "utf8mb3", force: :cascade do |t|
