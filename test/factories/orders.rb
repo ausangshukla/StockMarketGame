@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :order do
     side { Order::SIDE_TYPES[rand(2)] }
     quantity { rand(20) + rand(10) }
-    price { rand(20) * 1.5 }
+    price { side == "B" ? rand(10) + 10 : rand(20) * 10 + 30 }
     price_type { Order::PRICE_TYPES[rand(2)] }
     order_type { "Normal" }
     qualifier {  }

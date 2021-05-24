@@ -27,6 +27,7 @@ class OrderBook < ApplicationRecord
         @limit_sells.sort!{|a, b|  a.price <=> b.price }
         @limit_buys.sort!{|a, b|  b.price <=> a.price }
 
+        logger.debug "Sells: #{@limit_sells.size} Buys: #{@limit_buys.size}"
         self.print_book()
 
     end
@@ -64,13 +65,14 @@ class OrderBook < ApplicationRecord
 
     def print_book
         
-        table = Terminal::Table.new do |rows|
-            rows << ["", "", "#{@security.symbol}", "", "", ""]
-            rows << :separator  
+
+        table = Terminal::Table.new title: "#{@security.symbol} : #{@security.id} : Order Book"  do |rows|
             rows << ["Order Id", "Buy Quantity", "Buy Price", "Order Id", "Sell Quantity", "Sell Price"]
             rows << :separator  
-            
-            @limit_buys.zip(@limit_sells).each do |b,s|
+
+            buys_sells = @limit_buys.count > @limit_sells.count ? @limit_buys.zip(@limit_sells) : @limit_sells.zip(@limit_buys).map(&:reverse) 
+
+            buys_sells.each do |b,s|
                 # puts "Processing #{b}, #{s}"
                 row = []
                 b ? row.concat([b.id, b.quantity, b.price]) : row.concat([" ", " ", " "])
