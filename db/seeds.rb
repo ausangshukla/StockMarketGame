@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+(0..10).each do 
+    FactoryBot.create(:security)
+end
+
+(0..3).each do 
+    FactoryBot.create(:user)
+end
