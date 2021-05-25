@@ -35,30 +35,37 @@ class OrderBook < ApplicationRecord
     def process(order)
         case order.side 
         when  Order::BUY
-            if @limit_sells.length > 0
-                if cross_order(order)
-                else
-                    enqueue_order(order)
-                end
+            if @limit_sells.length > 0 && 
+                (order.price_type == Order::MARKET || order.price >= @limit_sells[0].price)
+                # If we have sellers
+                # And the order is a market order OR the buyer is willing to pay more than the sellers price
+                cross_order(order, @limit_sells[0])            
             else
-                # We are buying, but nobody is selling
+                # We are buying, but nobody is selling or the price is not right
                 enqueue_order(order)
             end
         when Order::SELL            
-            if @limit_buys.length > 0
-                if cross_order(order)
-                else
-                    enqueue_order(order)
-                end
+            if @limit_buys.length > 0 && 
+                (order.price_type == Order::MARKET || order.price <= @limit_buys[0].price)
+                # If we have buyers
+                # And the order is a market order OR the seller is willing to get less than the buyers price
+                cross_order(order, @limit_buys[0])            
             else
-                # We are selling, but nobody is buying
+                # We are selling, but nobody is buying or the price is not right
                 enqueue_order(order)
             end
         end
 
     end
 
-    def cross_order(order)
+    def cross_order(order, top_limit_order)
+        case order.side 
+        when Order::BUY
+            
+        when Order::SELL 
+        else
+            raise "Order with invalid side #{order.side}"    
+        end
         return false
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_031307) do
+ActiveRecord::Schema.define(version: 2021_05_25_052344) do
 
   create_table "action_text_rich_texts", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -120,6 +120,8 @@ ActiveRecord::Schema.define(version: 2021_05_24_031307) do
     t.integer "seller_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "counterparty_order_id"
+    t.index ["counterparty_order_id"], name: "index_trades_on_counterparty_order_id"
     t.index ["order_id"], name: "index_trades_on_order_id"
     t.index ["security_id"], name: "index_trades_on_security_id"
   end

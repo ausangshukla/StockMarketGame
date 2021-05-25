@@ -5,4 +5,5 @@ class Trade < ApplicationRecord
     belongs_to :user
     belongs_to :security
     belongs_to :order
+    belongs_to :counter_party_order, class_name: "Order"
 end
