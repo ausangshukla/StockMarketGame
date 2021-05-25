@@ -2,6 +2,11 @@ Given('the market order is crossed with the limit order') do
     @market_order.cross(@limit_order)
 end
 
+Given('the limit order is crossed with the market order') do
+    @limit_order.cross(@market_order)
+end
+  
+
 Then('I should see a new trade {string}') do |arg1|
     @trade = Trade.first
     expected_trade = Trade.new
@@ -11,7 +16,7 @@ Then('I should see a new trade {string}') do |arg1|
 
     assert @trade.security_id == expected_trade.security_id
     assert @trade.quantity == expected_trade.quantity
-    assert @trade.price == expected_trade.price
+    assert_equal @trade.price, expected_trade.price
 end
 
 
@@ -28,23 +33,28 @@ Then('the order status must be updated correctly') do
     if @trade.order.quantity == @trade.counterparty_order.quantity
         assert @trade.order.filled_qty == @trade.order.quantity
         assert @trade.order.fill_status == Order::FILLED
-
+        assert @trade.order.open_qty == 0
         assert @trade.counterparty_order.filled_qty == @trade.order.quantity
         assert @trade.counterparty_order.fill_status == Order::FILLED
+        assert @trade.counterparty_order.open_qty == 0
     
     elsif @trade.order.quantity < @trade.counterparty_order.quantity
         assert @trade.order.filled_qty == @trade.order.quantity
         assert @trade.order.fill_status == Order::FILLED
-
+        assert @trade.order.open_qty == 0
         assert @trade.counterparty_order.filled_qty == @trade.order.quantity
         assert @trade.counterparty_order.fill_status == Order::PARTIAL
+        assert @trade.counterparty_order.open_qty == @trade.counterparty_order.quantity - @trade.order.quantity
 
     elsif @trade.order.quantity > @trade.counterparty_order.quantity
         assert @trade.counterparty_order.filled_qty == @trade.counterparty_order.quantity
         assert @trade.counterparty_order.fill_status == Order::FILLED
-
+        assert @trade.counterparty_order.open_qty == 0
         assert @trade.order.filled_qty == @trade.counterparty_order.quantity
         assert @trade.order.fill_status == Order::PARTIAL
+        assert @trade.order.open_qty == @trade.order.quantity - @trade.counterparty_order.quantity
+        
     end
+
 end
   

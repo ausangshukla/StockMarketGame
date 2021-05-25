@@ -47,22 +47,35 @@ class Order < ApplicationRecord
 
     scope :open, -> { where(status: OPEN) }
 
+    def valid_cross?(counterparty_order)
+        valid = false
+        if(self.side != counterparty_order.side && self.security_id == counterparty_order.security_id)
+            # If both are limit orders, the buy price must be > sell price
+            if(self.price_type == LIMIT && counterparty_order.price_type == LIMIT)
+                valid = (self.side == BUY) ? self.price >= counterparty_order.price : self.price <= counterparty_order.price 
+            else
+                valid = true
+            end
+        end
+        valid
+    end
+
     # Cross this order with the input order
     def cross(counterparty_order)
         # ensure the right sides
-        if(self.side != counterparty_order.side)
+        if(valid_cross?(counterparty_order))
             
             quantity = (self.quantity <= counterparty_order.quantity) ? self.quantity : counterparty_order.quantity
+            buyer_id = self.side == BUY ? self.user_id : counterparty_order.user_id
+            seller_id = self.side == SELL ? self.user_id : counterparty_order.user_id
+            price = getPrice(counterparty_order)        
 
             Trade.transaction do
-                
-                buyer_id = self.side == BUY ? self.user_id : counterparty_order.user_id
-                seller_id = self.side == SELL ? self.user_id : counterparty_order.user_id
                 
                 # Create the trade
                 trade = Trade.new(order_id: self.id, symbol: self.symbol,
                     security_id: self.security_id, quantity: quantity,
-                    price: counterparty_order.price, 
+                    price: price, 
                     buyer_id: buyer_id,
                     seller_id: seller_id, 
                     counterparty_order_id: counterparty_order.id)
@@ -78,8 +91,22 @@ class Order < ApplicationRecord
 
             return true
         else
-            logger.debug "Orders not on opposite side"
+            logger.debug "Orders cross not valid"
             return false
+        end
+    end
+
+
+    private 
+    def getPrice(counterparty_order)
+        price_types = [self.price_type, counterparty_order.price_type]
+
+        return case price_types
+            when [MARKET, LIMIT]; counterparty_order.price
+            when [LIMIT, MARKET]; self.price
+            when [LIMIT, LIMIT]; self.id > counterparty_order.id ? self.price : counterparty_order.price
+            when [MARKET, MARKET]; self.security.price
+            else; 0
         end
     end
 

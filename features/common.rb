@@ -26,4 +26,18 @@ Given('there is a limit order {string}') do |arg1|
     log @limit_order.to_json
 end
   
+
+Given('there are two limit orders {string} {string}') do |arg1, arg2|
+    steps %Q{
+        Given there is a limit order '#{arg1}'
+        Given there is a limit order '#{arg2}'
+    }
+    @limit_order_1 = Order.first 
+    @limit_order_2 = Order.last 
+end
+
+Given('the limit orders are crossed') do
+    @limit_order_1.cross(@limit_order_2)
+end
+  
   
