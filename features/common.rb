@@ -36,8 +36,5 @@ Given('there are two limit orders {string} {string}') do |arg1, arg2|
     @limit_order_2 = Order.last 
 end
 
-Given('the limit orders are crossed') do
-    @limit_order_1.cross(@limit_order_2)
-end
   
   

@@ -1,12 +1,21 @@
 Given('the market order is crossed with the limit order') do
-    @market_order.cross(@limit_order)
+    OrderBook.cross(@market_order, @limit_order)
 end
 
 Given('the limit order is crossed with the market order') do
-    @limit_order.cross(@market_order)
+    OrderBook.cross(@limit_order, @market_order)
 end
   
 
+Given('the limit orders are crossed') do
+    OrderBook.cross(@limit_order_1, @limit_order_2)
+end
+
+Then('I should see no new trade created') do
+    assert_equal Trade.first, nil
+end
+
+  
 Then('I should see a new trade {string}') do |arg1|
     @trade = Trade.first
     expected_trade = Trade.new

@@ -1,4 +1,6 @@
 class OrderBook < ApplicationRecord
+    include OrderBookConcern
+
     validates :symbol, :security_id, presence: true
     belongs_to :exchange
 
@@ -29,27 +31,26 @@ class OrderBook < ApplicationRecord
 
         logger.debug "Sells: #{@limit_sells.size} Buys: #{@limit_buys.size}"
         self.print_book()
-
     end
 
+    # When a new order comes into the system, it is processed
+    # Either it will be fully crossed, partially crossed or enqueued to be crossed in the future
     def process(order)
-        case order.side 
-        when  Order::BUY
-            if @limit_sells.length > 0 && 
-                (order.price_type == Order::MARKET || order.price >= @limit_sells[0].price)
-                # If we have sellers
-                # And the order is a market order OR the buyer is willing to pay more than the sellers price
-                cross_order(order, @limit_sells[0])            
+        case [order.side]  
+        when  [Order::BUY]
+            # If we have sellers and the order is crossed 
+            if @limit_sells.length > 0 && OrderBook.cross(order, @limit_sells[0])
+                enqueue_order(order)
+                dequeue_order(@limit_sells[0])          
             else
                 # We are buying, but nobody is selling or the price is not right
                 enqueue_order(order)
             end
-        when Order::SELL            
-            if @limit_buys.length > 0 && 
-                (order.price_type == Order::MARKET || order.price <= @limit_buys[0].price)
-                # If we have buyers
-                # And the order is a market order OR the seller is willing to get less than the buyers price
-                cross_order(order, @limit_buys[0])            
+        when [Order::SELL]            
+            # If we have buyers and the order is crossed
+            if @limit_buys.length > 0 && OrderBook.cross(order, @limit_buys[0])    
+                enqueue_order(order)
+                dequeue_order(@limit_buys[0])          
             else
                 # We are selling, but nobody is buying or the price is not right
                 enqueue_order(order)
@@ -58,20 +59,9 @@ class OrderBook < ApplicationRecord
 
     end
 
-    def cross_order(order, top_limit_order)
-        case order.side 
-        when Order::BUY
-            
-        when Order::SELL 
-        else
-            raise "Order with invalid side #{order.side}"    
-        end
-        return false
-    end
 
 
-    def print_book
-        
+    def print_book        
 
         table = Terminal::Table.new title: "#{@security.symbol} : #{@security.id} : Order Book"  do |rows|
             rows << ["Order Id", "Buy Quantity", "Buy Price", "Order Id", "Sell Quantity", "Sell Price"]
@@ -94,18 +84,50 @@ class OrderBook < ApplicationRecord
     private
     def enqueue_order(order)
 
-        case order.price_type + "-" + order.side
-            when Order::LIMIT + "-" + Order::BUY 
-                @limit_buys = @limit_buys.append(order).sort!{|a, b|  b.price <=> a.price }
-            when Order::LIMIT + "-" + Order::SELL
-                @limit_sells = @limit_sells.append(order).sort_by{|o| o.price}
-            when Order::MARKET + "-" + Order::BUY  
-                @market_buys.append(order)
-            when Order::MARKET + "-" + Order::SELL
-                @market_sells.append(order)
-            else
-                raise "Unknown Type of order"
-        end
+        if order.status == Order::OPEN && order.fill_status != "Filled"
+            # We can enqueue only open and unfilled orders
+            case order.price_type + "-" + order.side
+                when Order::LIMIT + "-" + Order::BUY 
+                    @limit_buys = @limit_buys.append(order).sort!{|a, b|  b.price <=> a.price }
+                when Order::LIMIT + "-" + Order::SELL
+                    @limit_sells = @limit_sells.append(order).sort_by{|o| o.price}
+                when Order::MARKET + "-" + Order::BUY  
+                    @market_buys.append(order)
+                when Order::MARKET + "-" + Order::SELL
+                    @market_sells.append(order)
+                else
+                    raise "Unknown Type of order"
+            end
+
+            return true
+        else
+            return false
+        end    
+
+    end
+
+
+    def dequeue_order(order)
+
+        if order.status == Order::CANCELLED || order.fill_status == "Filled"
+            # We can enqueue only open and unfilled orders
+            case order.price_type + "-" + order.side
+                when Order::LIMIT + "-" + Order::BUY 
+                    @limit_buys.delete(order)
+                when Order::LIMIT + "-" + Order::SELL
+                     @limit_sells.delete(order)
+                when Order::MARKET + "-" + Order::BUY  
+                    @market_buys.delete(order)
+                when Order::MARKET + "-" + Order::SELL
+                    @market_sells.delete(order)
+                else
+                    raise "Unknown Type of order"
+            end
+
+            return true
+        else
+            return false
+        end    
 
     end
 
