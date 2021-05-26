@@ -61,13 +61,14 @@ module OrderBookConcern
             end
         end
 
+        # See how it works. https://medium.com/reactivemarkets/limit-order-books-9d48adf2c517
         def getPrice(new_order, existing_order)
             price_types = [new_order.price_type, existing_order.price_type]
 
             return case price_types
                 when [Order::MARKET, Order::LIMIT]; existing_order.price
                 when [Order::LIMIT, Order::MARKET]; new_order.price
-                when [Order::LIMIT, Order::LIMIT]; new_order.id > existing_order.id ? new_order.price : existing_order.price
+                when [Order::LIMIT, Order::LIMIT]; new_order.price # See Price taking https://medium.com/reactivemarkets/limit-order-books-9d48adf2c517
                 when [Order::MARKET, Order::MARKET]; new_order.security.price
                 else; 0
             end
