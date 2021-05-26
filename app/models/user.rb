@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many :orders, dependent: :delete_all
   has_many :trades, dependent: :delete_all
+  has_many :positions, dependent: :delete_all
 
   has_rich_text :bio
 

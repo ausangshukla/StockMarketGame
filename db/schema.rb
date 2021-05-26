@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_26_051638) do
+ActiveRecord::Schema.define(version: 2021_05_26_143645) do
 
   create_table "action_text_rich_texts", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -92,6 +92,21 @@ ActiveRecord::Schema.define(version: 2021_05_26_051638) do
     t.string "fill_status", limit: 15
     t.index ["security_id"], name: "index_orders_on_security_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "positions", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name", limit: 30
+    t.integer "user_id"
+    t.integer "security_id"
+    t.string "symbol", limit: 10
+    t.integer "quantity"
+    t.float "average_cost"
+    t.float "current_value"
+    t.float "eod_value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["security_id"], name: "index_positions_on_security_id"
+    t.index ["user_id"], name: "index_positions_on_user_id"
   end
 
   create_table "securities", charset: "utf8mb3", force: :cascade do |t|

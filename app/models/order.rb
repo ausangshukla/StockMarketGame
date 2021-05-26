@@ -49,7 +49,19 @@ class Order < ApplicationRecord
 
     end
 
-    
+
+    validate :can_place_order
+    private def can_place_order
+        # Check authorized for shorting
+        
+        # Check Margin available
+
+        # Check Market Open
+        
+        # if ! (valid...)
+        # self.errors[:base] << "Custom error message"
+        # end
+    end
     
     def block_amount
         trade_price = self.price_type == LIMIT ? self.price : security.price 

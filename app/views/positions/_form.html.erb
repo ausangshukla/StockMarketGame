@@ -1,0 +1,57 @@
+<%= form_with(model: position) do |form| %>
+  <% if position.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(position.errors.count, "error") %> prohibited this position from being saved:</h2>
+
+      <ul>
+        <% position.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :security_id %>
+    <%= form.number_field :security_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :symbol %>
+    <%= form.text_field :symbol, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :average_cost %>
+    <%= form.text_field :average_cost, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :current_value %>
+    <%= form.text_field :current_value, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :eod_value %>
+    <%= form.text_field :eod_value, class: "form-control" %>
+  </div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+<% end %>

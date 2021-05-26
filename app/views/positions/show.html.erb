@@ -1,0 +1,91 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>Name:</strong>
+  </td>
+  <td>
+          <%= @position.name %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>User:</strong>
+  </td>
+  <td>
+          <%= @position.user_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Security:</strong>
+  </td>
+  <td>
+          <%= @position.security_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Symbol:</strong>
+  </td>
+  <td>
+          <%= @position.symbol %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Quantity:</strong>
+  </td>
+  <td>
+          <%= @position.quantity %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Average cost:</strong>
+  </td>
+  <td>
+          <%= @position.average_cost %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Current value:</strong>
+  </td>
+  <td>
+          <%= @position.current_value %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Eod value:</strong>
+  </td>
+  <td>
+          <%= @position.eod_value %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_position_path(@position), class:"btn btn-primary" %> |
+<%= link_to 'Back', positions_path, class:"btn btn-primary" %>
+

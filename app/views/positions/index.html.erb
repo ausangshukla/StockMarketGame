@@ -1,0 +1,46 @@
+
+<p id="notice" class="alert" role="alert"><%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Positions</h1>
+    <%= link_to 'New Position', new_position_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User</th>
+      <th>Security</th>
+      <th>Symbol</th>
+      <th>Quantity</th>
+      <th>Average cost</th>
+      <th>Current value</th>
+      <th>Eod value</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @positions.each do |position| %>
+      <tr>
+        <td><%= position.name %></td>
+        <td><%= position.user_id %></td>
+        <td><%= position.security_id %></td>
+        <td><%= position.symbol %></td>
+        <td><%= position.quantity %></td>
+        <td><%= position.average_cost %></td>
+        <td><%= position.current_value %></td>
+        <td><%= position.eod_value %></td>
+        <td>
+          <%= link_to 'Show', position, class: "btn btn-primary" %>
+          <%= link_to 'Edit', edit_position_path(position), class: "btn btn-primary" %>
+          <%= link_to 'Delete', position, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

@@ -15,6 +15,10 @@ class Trade < ApplicationRecord
         security.save
     end
 
+    after_create do
+        Position.add(self)
+    end
+
     def amount
         price * quantity
     end

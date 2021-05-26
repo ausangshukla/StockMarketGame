@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :positions
   resources :statements
   resources :order_books
   resources :news

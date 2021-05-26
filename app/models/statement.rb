@@ -25,29 +25,16 @@ class Statement < ApplicationRecord
     def self.creditOrderAmount(order)
 
         # How much to unblock ? That depends on the cost of trades
+        trade_amount = order.trades.inject(0){|sum, t| sum + t.amount}
+        if order.block_amount > trade_amount
+            unblock_amount = order.block_amount - trade_amount 
+            Statement.transaction do
+                s = Statement.create(stmt_type: "UnBlock", credit: order.block_amount,
+                        user_id: order.user_id, ref: order,
+                        particulars: "UnBlocked for cancelling order #{order.id}")
 
-
-        Statement.transaction do
-            s = Statement.create(stmt_type: "UnBlock", credit: order.block_amount,
-                    user_id: order.user_id, ref: order,
-                    particulars: "UnBlocked for cancelling order #{order.id}")
-
-            self.user.unblockFunds(s.debit)
-        end
-    end
-
-    def self.debitTradeAmount(trade)
-        Statement.transaction do
-
-            s_buyer = Statement.create(stmt_type: "Trade", debit: trade.amount,
-                    user_id: trade.buyer_user_id, ref: trade,
-                    particulars: "Trade #{trade.id}")
-
-
-            s_seller = Statement.create(stmt_type: "Trade", debit: trade.amount,
-                user_id: trade.seller_user_id, ref: trade,
-                particulars: "Trade #{trade.id}")
-
+                self.user.unblockFunds(s.credit)
+            end                
         end
     end
 
