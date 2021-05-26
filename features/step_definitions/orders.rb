@@ -40,29 +40,29 @@ end
 
 Then('the order status must be updated correctly') do
 
-    if @trade.order.quantity == @trade.counterparty_order.quantity
-        assert @trade.order.filled_qty == @trade.order.quantity
-        assert @trade.order.fill_status == Order::FILLED
-        assert @trade.order.open_qty == 0
-        assert @trade.counterparty_order.filled_qty == @trade.order.quantity
-        assert @trade.counterparty_order.fill_status == Order::FILLED
-        assert @trade.counterparty_order.open_qty == 0
+    if @trade.buy_order.quantity == @trade.sell_order.quantity
+        assert @trade.buy_order.filled_qty == @trade.buy_order.quantity
+        assert @trade.buy_order.fill_status == Order::FILLED
+        assert @trade.buy_order.open_qty == 0
+        assert @trade.sell_order.filled_qty == @trade.buy_order.quantity
+        assert @trade.sell_order.fill_status == Order::FILLED
+        assert @trade.sell_order.open_qty == 0
     
-    elsif @trade.order.quantity < @trade.counterparty_order.quantity
-        assert @trade.order.filled_qty == @trade.order.quantity
-        assert @trade.order.fill_status == Order::FILLED
-        assert @trade.order.open_qty == 0
-        assert @trade.counterparty_order.filled_qty == @trade.order.quantity
-        assert @trade.counterparty_order.fill_status == Order::PARTIAL
-        assert @trade.counterparty_order.open_qty == @trade.counterparty_order.quantity - @trade.order.quantity
+    elsif @trade.buy_order.quantity < @trade.sell_order.quantity
+        assert @trade.buy_order.filled_qty == @trade.buy_order.quantity
+        assert @trade.buy_order.fill_status == Order::FILLED
+        assert @trade.buy_order.open_qty == 0
+        assert @trade.sell_order.filled_qty == @trade.buy_order.quantity
+        assert @trade.sell_order.fill_status == Order::PARTIAL
+        assert @trade.sell_order.open_qty == @trade.sell_order.quantity - @trade.buy_order.quantity
 
-    elsif @trade.order.quantity > @trade.counterparty_order.quantity
-        assert @trade.counterparty_order.filled_qty == @trade.counterparty_order.quantity
-        assert @trade.counterparty_order.fill_status == Order::FILLED
-        assert @trade.counterparty_order.open_qty == 0
-        assert @trade.order.filled_qty == @trade.counterparty_order.quantity
-        assert @trade.order.fill_status == Order::PARTIAL
-        assert @trade.order.open_qty == @trade.order.quantity - @trade.counterparty_order.quantity
+    elsif @trade.buy_order.quantity > @trade.sell_order.quantity
+        assert @trade.sell_order.filled_qty == @trade.sell_order.quantity
+        assert @trade.sell_order.fill_status == Order::FILLED
+        assert @trade.sell_order.open_qty == 0
+        assert @trade.buy_order.filled_qty == @trade.sell_order.quantity
+        assert @trade.buy_order.fill_status == Order::PARTIAL
+        assert @trade.buy_order.open_qty == @trade.buy_order.quantity - @trade.sell_order.quantity
         
     end
 
@@ -74,7 +74,11 @@ end
 
 Then('the trade quantities should match the order filled quantity') do
     # All trades for a particular order must add up to the filled quantity
-    Trade.group(:order_id).sum(:quantity).each do |order_id, qty|
+    Trade.group(:buy_order_id).sum(:quantity).each do |order_id, qty|
+        assert_equal Order.find(order_id).filled_qty, qty
+    end
+
+    Trade.group(:sell_order_id).sum(:quantity).each do |order_id, qty|
         assert_equal Order.find(order_id).filled_qty, qty
     end
 

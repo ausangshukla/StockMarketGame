@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 2021_05_26_051638) do
   end
 
   create_table "trades", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "order_id", null: false
+    t.integer "buy_order_id", null: false
     t.string "symbol", limit: 20, null: false
     t.integer "security_id", null: false
     t.integer "quantity", null: false
@@ -136,9 +136,9 @@ ActiveRecord::Schema.define(version: 2021_05_26_051638) do
     t.integer "seller_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "counterparty_order_id"
-    t.index ["counterparty_order_id"], name: "index_trades_on_counterparty_order_id"
-    t.index ["order_id"], name: "index_trades_on_order_id"
+    t.integer "sell_order_id"
+    t.index ["sell_order_id"], name: "index_trades_on_sell_order_id"
+    t.index ["buy_order_id"], name: "index_trades_on_buy_order_id"
     t.index ["security_id"], name: "index_trades_on_security_id"
   end
 

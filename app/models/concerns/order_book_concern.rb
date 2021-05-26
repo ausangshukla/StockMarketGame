@@ -36,14 +36,14 @@ module OrderBookConcern
                 price = getPrice(new_order, existing_order)        
 
                 Trade.transaction do
-                    
+                    buy_order, sell_order = (new_order.side == Order::BUY) ? [new_order, existing_order] : [existing_order, new_order]
                     # Create the trade
-                    trade = Trade.new(order_id: new_order.id, symbol: new_order.symbol,
+                    trade = Trade.new(buy_order_id: buy_order.id, symbol: new_order.symbol,
                         security_id: new_order.security_id, quantity: trade_quantity,
                         price: price, 
                         buyer_id: buyer_id,
                         seller_id: seller_id, 
-                        counterparty_order_id: existing_order.id)
+                        sell_order_id: sell_order.id)
                     trade.save
                     
                     # Update the orders

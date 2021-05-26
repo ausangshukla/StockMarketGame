@@ -45,17 +45,17 @@ class OrderBook < ApplicationRecord
     # Either it will be fully crossed, partially crossed or enqueued to be crossed in the future
     def process(order)
 
-        puts "\nProcessing #{order}"
+        logger.debug "\nProcessing #{order}"
 
         case [order.side]  
             when  [Order::BUY]
                 # If we have sellers and the order is crossed 
                 while crossWithPendingOrders(order, @market_sells)
-                    puts "Crossed #{order} \n with   #{@market_sells[0]}"
+                    logger.debug "Crossed #{order} \n with   #{@market_sells[0]}"
                     dequeue_order(@market_sells[0])          
                 end
                 while crossWithPendingOrders(order, @limit_sells)
-                    puts "Crossed #{order} \n with   #{@limit_sells[0]}"
+                    logger.debug "Crossed #{order} \n with   #{@limit_sells[0]}"
                     dequeue_order(@limit_sells[0])          
                 end
                 # We are buying, but nobody is selling or the price is not right
@@ -64,11 +64,11 @@ class OrderBook < ApplicationRecord
             when [Order::SELL]            
                 # If we have buyers and the order is crossed
                 while crossWithPendingOrders(order, @market_buys)
-                    puts "Crossed #{order} \n with   #{@market_buys[0]}"
+                    logger.debug "Crossed #{order} \n with   #{@market_buys[0]}"
                     dequeue_order(@market_buys[0])          
                 end
                 while crossWithPendingOrders(order, @limit_buys)    
-                    puts "Crossed #{order} \n with   #{@limit_buys[0]}"
+                    logger.debug "Crossed #{order} \n with   #{@limit_buys[0]}"
                     dequeue_order(@limit_buys[0])          
                 end
                 # We are selling, but nobody is buying or the price is not right

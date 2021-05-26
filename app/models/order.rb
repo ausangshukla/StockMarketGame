@@ -51,8 +51,9 @@ class Order < ApplicationRecord
 
     
     
-    def update_margin
-        
+    def block_amount
+        trade_price = self.price_type == LIMIT ? self.price : security.price 
+        trade_price * quantity        
     end
 
     def to_s
