@@ -9,6 +9,7 @@ class Order < ApplicationRecord
     STATUS = [  "Open", "Cancelled" ]
     FILL_STATUS = ["Filled", "Partially Filled", "Not Filled"]
 
+    scope :open, -> { where(status: OPEN) }
 
     BUY = "B"
     SELL = "S"
@@ -44,11 +45,15 @@ class Order < ApplicationRecord
         elsif self.open_qty == self.quantity
             self.fill_status = NOT_FILLED
         end
+
     end
 
-    scope :open, -> { where(status: OPEN) }
-
     
+    
+    def update_margin
+        
+    end
+
     def to_s
         "Id: #{self.id}, Status: #{self.status} #{self.fill_status}, Open: #{self.open_qty}, Filled: #{self.filled_qty}" 
     end

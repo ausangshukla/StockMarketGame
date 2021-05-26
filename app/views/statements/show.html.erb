@@ -1,0 +1,91 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+
+
+
+<tr>
+  <td>
+    <strong>Particulars:</strong>
+  </td>
+  <td>
+          <%= @statement.particulars %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Debit:</strong>
+  </td>
+  <td>
+          <%= @statement.debit %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Credit:</strong>
+  </td>
+  <td>
+          <%= @statement.credit %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Net:</strong>
+  </td>
+  <td>
+          <%= @statement.net %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Stmt type:</strong>
+  </td>
+  <td>
+          <%= @statement.stmt_type %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>User:</strong>
+  </td>
+  <td>
+          <%= @statement.user_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Ref:</strong>
+  </td>
+  <td>
+          <%= @statement.ref_id %>
+      </td>
+</tr>
+
+
+<tr>
+  <td>
+    <strong>Ref type:</strong>
+  </td>
+  <td>
+          <%= @statement.ref_type %>
+      </td>
+</tr>
+
+
+</table> 
+
+<%= link_to 'Edit', edit_statement_path(@statement), class:"btn btn-primary" %> |
+<%= link_to 'Back', statements_path, class:"btn btn-primary" %>
+

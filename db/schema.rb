@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_25_074758) do
+ActiveRecord::Schema.define(version: 2021_05_26_051638) do
 
   create_table "action_text_rich_texts", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -111,6 +111,21 @@ ActiveRecord::Schema.define(version: 2021_05_25_074758) do
     t.index ["symbol"], name: "index_securities_on_symbol", unique: true
   end
 
+  create_table "statements", charset: "utf8mb3", force: :cascade do |t|
+    t.text "particulars"
+    t.float "debit"
+    t.float "credit"
+    t.float "net"
+    t.string "stmt_type", limit: 10
+    t.integer "user_id"
+    t.integer "ref_id"
+    t.string "ref_type", limit: 30
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ref_id"], name: "index_statements_on_ref_id"
+    t.index ["user_id"], name: "index_statements_on_user_id"
+  end
+
   create_table "trades", charset: "utf8mb3", force: :cascade do |t|
     t.integer "order_id", null: false
     t.string "symbol", limit: 20, null: false
@@ -138,9 +153,14 @@ ActiveRecord::Schema.define(version: 2021_05_25_074758) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.float "available_margin"
+    t.float "used_margin"
+    t.float "available_cash"
+    t.float "opening_balance"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

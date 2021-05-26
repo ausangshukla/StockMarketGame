@@ -6,14 +6,17 @@ module OrderBookConcern
         def valid_cross?(new_order, existing_order)
             valid = false
             if( new_order.fill_status != Order::FILLED && # The new order is not already filled
-                new_order.side != existing_order.side && # the 2 orders are on opposite sides
+                existing_order.fill_status != Order::FILLED &&
+                new_order.side != existing_order.side && # the 2 orders are on opposite sides B/S
                 new_order.security_id == existing_order.security_id ) # Both are for the same security
+
                 # If both are limit orders, the buy price must be > sell price
                 if(new_order.price_type == Order::LIMIT && existing_order.price_type == Order::LIMIT)
                     valid = (new_order.side == Order::BUY) ? new_order.price >= existing_order.price : new_order.price <= existing_order.price 
                 else
                     valid = true
                 end
+                
             end
             valid
         end

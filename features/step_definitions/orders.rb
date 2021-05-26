@@ -39,6 +39,7 @@ end
   
 
 Then('the order status must be updated correctly') do
+
     if @trade.order.quantity == @trade.counterparty_order.quantity
         assert @trade.order.filled_qty == @trade.order.quantity
         assert @trade.order.fill_status == Order::FILLED
@@ -65,8 +66,20 @@ Then('the order status must be updated correctly') do
         
     end
 
+
+
     
 end
+
+
+Then('the trade quantities should match the order filled quantity') do
+    # All trades for a particular order must add up to the filled quantity
+    Trade.group(:order_id).sum(:quantity).each do |order_id, qty|
+        assert_equal Order.find(order_id).filled_qty, qty
+    end
+
+end
+  
 
 Then('I should see {string} new trades created') do |arg1|
     assert_equal Trade.count, arg1.to_i

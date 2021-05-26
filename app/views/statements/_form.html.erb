@@ -1,0 +1,57 @@
+<%= form_with(model: statement) do |form| %>
+  <% if statement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(statement.errors.count, "error") %> prohibited this statement from being saved:</h2>
+
+      <ul>
+        <% statement.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" class="form-group">
+    <%= form.label :particulars %>
+    <%= form.text_area :particulars, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :debit %>
+    <%= form.text_field :debit, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :credit %>
+    <%= form.text_field :credit, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :net %>
+    <%= form.text_field :net, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :stmt_type %>
+    <%= form.text_field :stmt_type, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :ref_id %>
+    <%= form.number_field :ref_id, class: "form-control" %>
+  </div>
+
+  <div class="field" class="form-group">
+    <%= form.label :ref_type %>
+    <%= form.text_field :ref_type, class: "form-control" %>
+  </div>
+
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+<% end %>

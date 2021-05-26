@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include FundsConcern
+
   ThinkingSphinx::Callbacks.append(
     self, :behaviours => [:real_time]
   )
@@ -18,14 +20,18 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image, dependent: :destroy
 
-  before_create :setup_role
+  before_create :setup
 
   def full_name
     first_name + " " + last_name
   end
 
-  def setup_role
-    self.role = "User"  
+  def setup
+    self.role ||= "User"
+    self.available_margin ||= 0
+    self.used_margin ||= 0
+    self.available_cash ||= 0
+    self.opening_balance ||= 0  
   end
 
   def send_devise_notification(notification, *args)

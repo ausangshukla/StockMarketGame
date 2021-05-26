@@ -1,0 +1,46 @@
+
+<p id="notice" class="alert" role="alert"><%= notice %></p>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Statements</h1>
+    <%= link_to 'New Statement', new_statement_path, class: "btn btn-primary" %>
+</div>
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Particulars</th>
+      <th>Debit</th>
+      <th>Credit</th>
+      <th>Net</th>
+      <th>Stmt type</th>
+      <th>User</th>
+      <th>Ref</th>
+      <th>Ref type</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @statements.each do |statement| %>
+      <tr>
+        <td><%= statement.particulars %></td>
+        <td><%= statement.debit %></td>
+        <td><%= statement.credit %></td>
+        <td><%= statement.net %></td>
+        <td><%= statement.stmt_type %></td>
+        <td><%= statement.user_id %></td>
+        <td><%= statement.ref_id %></td>
+        <td><%= statement.ref_type %></td>
+        <td>
+          <%= link_to 'Show', statement, class: "btn btn-primary" %>
+          <%= link_to 'Edit', edit_statement_path(statement), class: "btn btn-primary" %>
+          <%= link_to 'Delete', statement, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

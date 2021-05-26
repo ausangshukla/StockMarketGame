@@ -10,7 +10,8 @@ class Trade < ApplicationRecord
     belongs_to :counterparty_order, class_name: "Order"
 
 
-    before_save do
+    before_create do        
+        logger.debug "Saving price #{price} for Security #{security.symbol}"
         security.price = self.price 
         security.save
     end

@@ -5,5 +5,8 @@ FactoryBot.define do
       email { Faker::Internet.email }
       password {email}
       role {"User"}
+      available_margin {10**10}
+      available_cash { available_margin }
+      opening_balance { available_margin }
   end
 end
