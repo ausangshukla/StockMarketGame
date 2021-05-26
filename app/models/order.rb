@@ -30,6 +30,7 @@ class Order < ApplicationRecord
 
     before_save do 
 
+
         self.status ||= OPEN 
         self.open_qty ||= self.quantity
         self.filled_qty ||= 0
@@ -37,7 +38,7 @@ class Order < ApplicationRecord
         self.symbol ||= Security.find(security_id).symbol
 
         self.open_qty = self.quantity - self.filled_qty
-
+        self.price = 0 if self.price_type == Order::MARKET
         if self.open_qty == 0
             self.fill_status = FILLED
         elsif self.open_qty < self.quantity
@@ -55,6 +56,6 @@ class Order < ApplicationRecord
     end
 
     def to_s
-        "Id: #{self.id}, Status: #{self.status} #{self.fill_status}, Open: #{self.open_qty}, Filled: #{self.filled_qty}" 
+        "Id: #{self.id}, Side: #{self.side}, Type: #{self.price_type}, Status: #{self.status} #{self.fill_status}, Open: #{self.open_qty}, Filled: #{self.filled_qty}" 
     end
 end

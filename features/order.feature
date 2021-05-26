@@ -39,8 +39,8 @@ Feature: Order
     Examples:
         |order 1                                                       |order 2                                                       |trade                                     |
         |price_type=Limit;security_id=1;quantity=100;price=20;side=B   |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |security_id=1;quantity=100;price=20      |
-        |price_type=Limit;security_id=1;quantity=20;price=30;side=B    |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |security_id=1;quantity=20;price=30       |
-        |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |price_type=Limit;security_id=1;quantity=20;price=30;side=B    |security_id=1;quantity=20;price=20        |
+        |price_type=Limit;security_id=1;quantity=20;price=30;side=B    |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |security_id=1;quantity=20;price=20       |
+        |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |price_type=Limit;security_id=1;quantity=20;price=30;side=B    |security_id=1;quantity=20;price=30        |
         |price_type=Limit;security_id=1;quantity=100;price=50;side=S   |price_type=Market;security_id=1;quantity=20;side=B            |security_id=1;quantity=20;price=50       |        
         |price_type=Market;security_id=1;quantity=100;side=S           |price_type=Limit;security_id=1;quantity=20;price=50;side=B    |security_id=1;quantity=20;price=50       |        
 

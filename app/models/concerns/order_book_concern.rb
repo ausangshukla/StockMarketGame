@@ -56,7 +56,7 @@ module OrderBookConcern
 
                 return true
             else
-                logger.debug "Orders cross not valid"
+                logger.debug "Orders cross not valid #{new_order} and #{existing_order}"
                 return false
             end
         end
@@ -68,7 +68,7 @@ module OrderBookConcern
             return case price_types
                 when [Order::MARKET, Order::LIMIT]; existing_order.price
                 when [Order::LIMIT, Order::MARKET]; new_order.price
-                when [Order::LIMIT, Order::LIMIT]; new_order.price # See Price taking https://medium.com/reactivemarkets/limit-order-books-9d48adf2c517
+                when [Order::LIMIT, Order::LIMIT]; existing_order.price # See Price taking https://medium.com/reactivemarkets/limit-order-books-9d48adf2c517
                 when [Order::MARKET, Order::MARKET]; new_order.security.price
                 else; 0
             end

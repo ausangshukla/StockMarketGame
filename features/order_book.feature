@@ -15,6 +15,7 @@ Feature: Order Book
 
     Scenario Outline: Cross Limit Order with non matching Limit Order
         Given there are two orders "<order 1>" "<order 2>"
+        Given there are two orders "<order 1>" "<order 2>"
         And the order book is created for "<order 1>"   
         Then I should see no new trade created
     Examples:
@@ -27,14 +28,17 @@ Feature: Order Book
 
 
     Scenario Outline: Cross Market Order with multiple Limit Order
-        Given there are two orders "<limit order 1>" "<limit order 2>"
-        Given there is a market order "<market order>"
-        And the order book is created for "<limit order 1>"   
+        Given there are two orders "<order 1>" "<order 2>"
+        Given there is an order "<order>"
+        And the order book is created for "<order 1>"   
         Then I should see "2" new trades created
         And the trade quantities should match the order filled quantity
     Examples:
-        |market order                                           |limit order 1                                                  |limit order 2                                                 |
-        |price_type=Market;security_id=1;quantity=100;side=B    |price_type=Limit;security_id=1;quantity=50;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=30;side=S   |
-        |price_type=Market;security_id=1;quantity=100;side=B    |price_type=Limit;security_id=1;quantity=50;price=30;side=S    |price_type=Limit;security_id=1;quantity=70;price=20;side=S   |
-        |price_type=Market;security_id=1;quantity=100;side=B    |price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=20;side=S   |
-        |price_type=Market;security_id=1;quantity=200;side=B    |price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=20;side=S   |
+        |order                                                      |order 1                                                       |order 2                                                 |
+        |price_type=Market;security_id=1;quantity=100;side=B        |price_type=Limit;security_id=1;quantity=50;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=30;side=S   |
+        |price_type=Market;security_id=1;quantity=100;side=B        |price_type=Limit;security_id=1;quantity=50;price=30;side=S    |price_type=Limit;security_id=1;quantity=70;price=20;side=S   |
+        |price_type=Market;security_id=1;quantity=100;side=B        |price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=20;side=S   |
+        |price_type=Market;security_id=1;quantity=200;side=B        |price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=20;side=S   |
+        |price_type=Limit;security_id=1;quantity=200;side=B;price=40|price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Limit;security_id=1;quantity=50;price=30;side=S   |
+        |price_type=Limit;security_id=1;quantity=200;side=B;price=40|price_type=Market;security_id=1;quantity=70;side=S            |price_type=Market;security_id=1;quantity=50;side=S   |
+        |price_type=Limit;security_id=1;quantity=200;side=B;price=40|price_type=Limit;security_id=1;quantity=70;price=20;side=S    |price_type=Market;security_id=1;quantity=50;side=S   |

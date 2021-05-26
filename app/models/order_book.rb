@@ -38,7 +38,7 @@ class OrderBook < ApplicationRecord
 
 
     def crossWithPendingOrders(order, pendingOrders)
-        pendingOrders.length > 0 && OrderBook.cross(order, pendingOrders[0])
+        pendingOrders.length > 0 && OrderBook.cross(order, pendingOrders[0]) 
     end
 
     # When a new order comes into the system, it is processed
@@ -50,8 +50,12 @@ class OrderBook < ApplicationRecord
         case [order.side]  
             when  [Order::BUY]
                 # If we have sellers and the order is crossed 
-                while crossWithPendingOrders(order, @market_sells) || crossWithPendingOrders(order, @limit_sells)
-                    puts "Crossed #{order} with #{@limit_sells[0]}"
+                while crossWithPendingOrders(order, @market_sells)
+                    puts "Crossed #{order} \n with   #{@market_sells[0]}"
+                    dequeue_order(@market_sells[0])          
+                end
+                while crossWithPendingOrders(order, @limit_sells)
+                    puts "Crossed #{order} \n with   #{@limit_sells[0]}"
                     dequeue_order(@limit_sells[0])          
                 end
                 # We are buying, but nobody is selling or the price is not right
@@ -59,8 +63,12 @@ class OrderBook < ApplicationRecord
                 
             when [Order::SELL]            
                 # If we have buyers and the order is crossed
-                while crossWithPendingOrders(order, @market_buys) || crossWithPendingOrders(order, @limit_buys)    
-                    puts "Crossed #{order} with #{@limit_buys[0]}"
+                while crossWithPendingOrders(order, @market_buys)
+                    puts "Crossed #{order} \n with   #{@market_buys[0]}"
+                    dequeue_order(@market_buys[0])          
+                end
+                while crossWithPendingOrders(order, @limit_buys)    
+                    puts "Crossed #{order} \n with   #{@limit_buys[0]}"
                     dequeue_order(@limit_buys[0])          
                 end
                 # We are selling, but nobody is buying or the price is not right
@@ -68,7 +76,6 @@ class OrderBook < ApplicationRecord
                 
         end
 
-        
         self.print()
     end
 
@@ -127,13 +134,9 @@ class OrderBook < ApplicationRecord
     def load        
         orders = Order.open.where(security_id: self.security_id).order("id asc")
         logger.debug "Loaded #{orders.count} orders for security_id = #{security_id}"
-        orders.order("price").each do |order|
+        orders.each do |order|
             process(order)
         end
-
-        @limit_sells.sort!{|a, b|  a.price <=> b.price }
-        @limit_buys.sort!{|a, b|  b.price <=> a.price }
-
         logger.debug "Sells: #{@limit_sells.size} Buys: #{@limit_buys.size}"
         print()
     end
