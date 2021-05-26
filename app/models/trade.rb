@@ -8,4 +8,10 @@ class Trade < ApplicationRecord
     belongs_to :security
     belongs_to :order
     belongs_to :counterparty_order, class_name: "Order"
+
+
+    before_save do
+        security.price = self.price 
+        security.save
+    end
 end

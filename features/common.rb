@@ -27,14 +27,15 @@ Given('there is a limit order {string}') do |arg1|
 end
   
 
-Given('there are two limit orders {string} {string}') do |arg1, arg2|
+Given('there are two orders {string} {string}') do |arg1, arg2|
     steps %Q{
         Given there is a limit order '#{arg1}'
         Given there is a limit order '#{arg2}'
     }
-    @limit_order_1 = Order.first 
-    @limit_order_2 = Order.last 
+    @order_1 = Order.first 
+    @order_2 = Order.last 
 end
 
+  
   
   

@@ -7,8 +7,8 @@ Given('the limit order is crossed with the market order') do
 end
   
 
-Given('the limit orders are crossed') do
-    OrderBook.cross(@limit_order_1, @limit_order_2)
+Given('the orders are crossed') do
+    OrderBook.cross(@order_1, @order_2)
 end
 
 Then('I should see no new trade created') do
@@ -65,5 +65,11 @@ Then('the order status must be updated correctly') do
         
     end
 
+    
 end
+
+Then('I should see {string} new trades created') do |arg1|
+    assert_equal Trade.count, arg1.to_i
+end
+  
   

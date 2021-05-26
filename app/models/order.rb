@@ -36,6 +36,7 @@ class Order < ApplicationRecord
         self.symbol ||= Security.find(security_id).symbol
 
         self.open_qty = self.quantity - self.filled_qty
+
         if self.open_qty == 0
             self.fill_status = FILLED
         elsif self.open_qty < self.quantity
@@ -48,5 +49,7 @@ class Order < ApplicationRecord
     scope :open, -> { where(status: OPEN) }
 
     
-
+    def to_s
+        "Id: #{self.id}, Status: #{self.status} #{self.fill_status}, Open: #{self.open_qty}, Filled: #{self.filled_qty}" 
+    end
 end

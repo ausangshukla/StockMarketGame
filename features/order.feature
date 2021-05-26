@@ -30,9 +30,10 @@ Feature: Order
         |price_type=Market;security_id=1;quantity=100;side=S   |price_type=Limit;security_id=1;quantity=20;price=30;side=B   |security_id=1;quantity=20;price=30       |        
 
 
+
     Scenario Outline: Cross Limit Order with Limit Order
-        Given there are two limit orders "<limit order 1>" "<limit order 2>"
-        And the limit orders are crossed   
+        Given there are two orders "<limit order 1>" "<limit order 2>"
+        And the orders are crossed   
         Then I should see a new trade "<trade>"
         And the order status must be updated correctly
     Examples:
