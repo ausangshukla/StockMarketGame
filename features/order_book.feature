@@ -22,6 +22,7 @@ Feature: Order Book
         |price_type=Limit;security_id=1;quantity=100;price=20;side=B    |price_type=Limit;security_id=1;quantity=100;price=30;side=S   |
         |price_type=Limit;security_id=1;quantity=100;price=30;side=S    |price_type=Limit;security_id=1;quantity=100;price=20;side=B   |
         |price_type=Limit;security_id=1;quantity=100;price=20;side=S    |price_type=Limit;security_id=1;quantity=100;price=20;side=S   |
+        |price_type=Market;security_id=1;quantity=100;price=20;side=S   |price_type=Market;security_id=1;quantity=100;price=20;side=B   |
 
 
 

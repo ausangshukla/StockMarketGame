@@ -23,7 +23,8 @@ class OrderBook < ApplicationRecord
 
     
     def print
-        OrderBook.print_book(@security, @limit_buys, @limit_sells)
+        OrderBook.print_book(@security, @market_buys, @market_sells, Order::MARKET)
+        OrderBook.print_book(@security, @limit_buys, @limit_sells, Order::LIMIT)
     end
 
     def cancel_order(order)
@@ -35,6 +36,11 @@ class OrderBook < ApplicationRecord
         process(order)
     end
 
+
+    def crossWithPendingOrders(order, pendingOrders)
+        pendingOrders.length > 0 && OrderBook.cross(order, pendingOrders[0])
+    end
+
     # When a new order comes into the system, it is processed
     # Either it will be fully crossed, partially crossed or enqueued to be crossed in the future
     def process(order)
@@ -44,7 +50,7 @@ class OrderBook < ApplicationRecord
         case [order.side]  
             when  [Order::BUY]
                 # If we have sellers and the order is crossed 
-                while @limit_sells.length > 0 && OrderBook.cross(order, @limit_sells[0])
+                while crossWithPendingOrders(order, @market_sells) || crossWithPendingOrders(order, @limit_sells)
                     puts "Crossed #{order} with #{@limit_sells[0]}"
                     dequeue_order(@limit_sells[0])          
                 end
@@ -53,7 +59,7 @@ class OrderBook < ApplicationRecord
                 
             when [Order::SELL]            
                 # If we have buyers and the order is crossed
-                while @limit_buys.length > 0 && OrderBook.cross(order, @limit_buys[0])    
+                while crossWithPendingOrders(order, @market_buys) || crossWithPendingOrders(order, @limit_buys)    
                     puts "Crossed #{order} with #{@limit_buys[0]}"
                     dequeue_order(@limit_buys[0])          
                 end

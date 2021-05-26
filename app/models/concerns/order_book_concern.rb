@@ -10,10 +10,14 @@ module OrderBookConcern
                 new_order.side != existing_order.side && # the 2 orders are on opposite sides B/S
                 new_order.security_id == existing_order.security_id ) # Both are for the same security
 
-                # If both are limit orders, the buy price must be > sell price
-                if(new_order.price_type == Order::LIMIT && existing_order.price_type == Order::LIMIT)
+                if(new_order.price_type == Order::MARKET && existing_order.price_type == Order::MARKET)
+                    # Cannot cross 2 market orders
+                    valid = false
+                elsif(new_order.price_type == Order::LIMIT && existing_order.price_type == Order::LIMIT)
+                    # If both are limit orders, the buy price must be > sell price
                     valid = (new_order.side == Order::BUY) ? new_order.price >= existing_order.price : new_order.price <= existing_order.price 
                 else
+                    # Cleared all other criteria, so we can cross
                     valid = true
                 end
                 
@@ -70,9 +74,9 @@ module OrderBookConcern
         end
 
 
-        def print_book(security, limit_buys, limit_sells)        
+        def print_book(security, limit_buys, limit_sells, price_type)        
 
-            table = Terminal::Table.new title: "#{security.symbol} : #{security.id} : Order Book"  do |rows|
+            table = Terminal::Table.new title: "#{security.symbol} : #{security.id} : #{price_type} Order Book"  do |rows|
                 rows << ["Order Id", "Buy Quantity", "Buy Price", "Order Id", "Sell Quantity", "Sell Price"]
                 rows << :separator  
     
