@@ -30,28 +30,37 @@ module OrderBookConcern
             # ensure the right sides
             if(valid_cross?(new_order, existing_order))
                 
-                trade_quantity = (new_order.open_qty <= existing_order.open_qty) ? new_order.open_qty : existing_order.open_qty
-                buyer_id = new_order.side == Order::BUY ? new_order.user_id : existing_order.user_id
-                seller_id = new_order.side == Order::SELL ? new_order.user_id : existing_order.user_id
                 price = getPrice(new_order, existing_order)        
 
+                buy_order, sell_order = (new_order.side == Order::BUY) ? [new_order, existing_order] : [existing_order, new_order]
+                trade_quantity = (buy_order.open_qty <= sell_order.open_qty) ? buy_order.open_qty : sell_order.open_qty
+
                 Trade.transaction do
-                    buy_order, sell_order = (new_order.side == Order::BUY) ? [new_order, existing_order] : [existing_order, new_order]
                     # Create the trade
-                    trade = Trade.new(buy_order_id: buy_order.id, symbol: new_order.symbol,
-                        security_id: new_order.security_id, quantity: trade_quantity,
-                        price: price, 
-                        buyer_id: buyer_id,
-                        seller_id: seller_id, 
-                        sell_order_id: sell_order.id)
-                    trade.save
+                    buy_trade = Trade.create(   symbol: new_order.symbol,
+                                                quantity: trade_quantity,
+                                                price: price, 
+                                                side: buy_order.side,
+                                                security_id: buy_order.security_id, 
+                                                user_id: buy_order.user_id,
+                                                order_id: buy_order.id, 
+                                                counterparty_order_id: sell_order.id )
+                    
+                    sell_trade = Trade.create(  symbol: new_order.symbol,
+                                                quantity: trade_quantity,
+                                                price: price, 
+                                                side: sell_order.side,
+                                                security_id: sell_order.security_id, 
+                                                user_id: sell_order.user_id,
+                                                order_id: sell_order.id, 
+                                                counterparty_order_id: buy_order.id )
                     
                     # Update the orders
-                    new_order.filled_qty += trade_quantity
-                    new_order.save
+                    buy_order.filled_qty += trade_quantity
+                    buy_order.save
 
-                    existing_order.filled_qty += trade_quantity
-                    existing_order.save
+                    sell_order.filled_qty += trade_quantity
+                    sell_order.save
                 end
 
                 return true

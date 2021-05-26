@@ -5,7 +5,7 @@ Feature: Order Book
     Scenario Outline: Cross Limit Order with Limit Order
         Given there are two orders "<order 1>" "<order 2>"
         And the order book is created for "<order 1>"   
-        Then I should see a new trade "<trade>"
+        Then I should see "2" new trade "<trade>"
         And the order status must be updated correctly
     Examples:
         |order 1                                                        |order 2                                                   |trade                                     |
@@ -31,7 +31,7 @@ Feature: Order Book
         Given there are two orders "<order 1>" "<order 2>"
         Given there is an order "<order>"
         And the order book is created for "<order 1>"   
-        Then I should see "2" new trades created
+        Then I should see "4" new trades created
         And the trade quantities should match the order filled quantity
     Examples:
         |order                                                      |order 1                                                       |order 2                                                 |

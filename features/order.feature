@@ -6,8 +6,7 @@ Feature: Order
         Given there is a market order "<market order>"
         Given there is a limit order "<limit order>"
         And the market order is crossed with the limit order   
-        Then I should see a new trade "<trade>"
-        And the trade should have the right buyer and seller
+        Then I should see "2" new trade "<trade>"
         And the order status must be updated correctly
     Examples:
         |market order                                          |limit order                                                   |trade                                     |
@@ -20,8 +19,7 @@ Feature: Order
         Given there is a market order "<market order>"
         Given there is a limit order "<limit order>"
         And the limit order is crossed with the market order   
-        Then I should see a new trade "<trade>"
-        And the trade should have the right buyer and seller
+        Then I should see "2" new trade "<trade>"
         And the order status must be updated correctly
     Examples:
         |market order                                               |limit order                                                     |trade                                     |
@@ -34,7 +32,7 @@ Feature: Order
     Scenario Outline: Cross One Order with Another Order
         Given there are two orders "<order 1>" "<order 2>"
         And the orders are crossed   
-        Then I should see a new trade "<trade>"
+        Then I should see "2" new trade "<trade>"
         And the order status must be updated correctly
     Examples:
         |order 1                                                       |order 2                                                       |trade                                     |
