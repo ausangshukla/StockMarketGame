@@ -27,7 +27,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= link_to order.id, order %></td>
+        <td><%= link_to "Order-#{order.id}", order %></td>
         <td><%= order.user.full_name %></td>
         <td><%= order.side %></td>
         <td><%= link_to order.symbol, security_path(id: order.security_id) %></td>

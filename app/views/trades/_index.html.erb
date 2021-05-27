@@ -22,14 +22,14 @@
   <tbody>
     <% @trades.each do |trade| %>
       <tr>
-        <td><%= link_to trade.id, trade %></td>
-        <td><%= link_to "order-#{trade.order_id}", order_path(id: trade.order_id) %></td>
+        <td><%= link_to "Trade-#{trade.id}", trade %></td>
+        <td><%= link_to "Order-#{trade.order_id}", order_path(id: trade.order_id) %></td>
         <td><%= trade.symbol %></td>
         <td><%= trade.side %></td>
         <td><%= trade.quantity %></td>
         <td><%= trade.price %></td>
         <td><%= trade.user.full_name %></td>
-        <td><%= link_to "order-#{trade.counterparty_order_id}", order_path(id: trade.counterparty_order_id) %></td>
+        <td><%= link_to "Order-#{trade.counterparty_order_id}", order_path(id: trade.counterparty_order_id) %></td>
         <td>
           <%= link_to 'Show', trade, class: "btn btn-primary" %>
           <%= link_to 'Edit', edit_trade_path(trade), class: "btn btn-primary" %>
