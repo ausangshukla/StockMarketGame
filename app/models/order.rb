@@ -50,7 +50,7 @@ class Order < ApplicationRecord
 
 
     after_save do
-       
+       broadcast()
     end
 
     def broadcast()

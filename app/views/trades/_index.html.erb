@@ -22,22 +22,9 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="trade_table">
     <% @trades.each do |trade| %>
-      <tr>
-        <td><%= link_to "Trade-#{trade.id}", trade %></td>
-        
-        <td><%= trade.symbol %></td>
-        <td><%= trade.side %></td>
-        <td><%= trade.quantity %></td>
-        <td><%= trade.price %></td>
-        <td><%= trade.user.full_name %></td>
-        <td><%= trade.created_at %></td>
-
-        <td><%= link_to "Order-#{trade.order_id}", order_path(id: trade.order_id) %></td>
-        <td><%= link_to "Order-#{trade.counterparty_order_id}", order_path(id: trade.counterparty_order_id) %></td>
-        
-      </tr>
+      <%=render "/trades/row", {trade:trade}%>
     <% end %>
   </tbody>
 </table>

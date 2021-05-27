@@ -34,4 +34,17 @@ class Position < ApplicationRecord
     def trades 
         self.user.trades.where(security_id: self.security_id).includes(:user)
     end
+
+
+    after_save do
+        broadcast()
+    end
+ 
+    def broadcast()
+         PositionChannel.broadcast_to "user_id:#{user_id}", 
+             {   id: id,
+                 html: PositionsController.render("/positions/_row", layout:nil, locals: {position: self})
+             }
+    end
+
 end

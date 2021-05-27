@@ -19,17 +19,9 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="position_table">
     <% @positions.each do |position| %>
-      <tr>
-        <td><%= link_to position.id, position %></td>
-        <td><%= position.user.full_name %></td>
-        <td><%= position.symbol %></td>
-        <td><%= position.quantity %></td>
-        <td><%= position.average_cost %></td>
-        <td><%= position.current_value %></td>
-        <td><%= position.eod_value %></td>
-      </tr>
+      <%= render "/positions/row", {position: position} %>
     <% end %>
   </tbody>
 </table>

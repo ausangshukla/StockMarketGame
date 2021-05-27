@@ -14,8 +14,6 @@ consumer.subscriptions.create("SecurityChannel", {
     console.log(data)
     let price_node = $(`#sec_price_${data.id}`);
     price_node.html(data.price);
-    // price_node.effect("highlight", {}, 3000);
-    //$(`#sec_price_${data.id}`).effect( "highlight", {color:"#669966"}, 3000 );
-
+    
   }
 });
