@@ -29,22 +29,19 @@
     <% @securities.each do |security| %>
       <tr>
         <td><%= security.sec_type %></td>
-        <td><%= security.symbol %></td>
+        <td><%= link_to security.symbol, security %></td>
         <td><%= security.name %></td>
         <td><%= security.prev_closing_price %></td>
         <td><%= security.opening_trade_price %></td>
         <td><%= security.day_high_price %></td>
         <td><%= security.day_low_price %></td>
-        <td><%= security.price %></td>
+        <td id="sec_price_<%=security.id%>"><%= security.price %></td>
         <td><%= security.market_cap %></td>
         <td><%= security.pe %></td>
         <td><%= security.last_trade_date %></td>
         <td>
-          <%= link_to 'Show', security, class: "btn btn-primary" %>
-          <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-primary" %>
-          
+          <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-success" %>          
           <%= link_to 'Edit', edit_security_path(security), class: "btn btn-primary" %>
-          <%= link_to 'Delete', security, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
         </td>
       </tr>
     <% end %>

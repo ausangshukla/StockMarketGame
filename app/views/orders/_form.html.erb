@@ -32,13 +32,13 @@
   </div>
 
   <div class="field" class="form-group">
-    <%= form.label :price %>
-    <%= form.text_field :price, class: "form-control" %>
+    <%= form.label :price_type %>
+    <%= form.select :price_type, Order::PRICE_TYPES, {}, {class: "form-control"} %>    
   </div>
 
   <div class="field" class="form-group">
-    <%= form.label :price_type %>
-    <%= form.select :price_type, Order::PRICE_TYPES, {}, {class: "form-control"} %>    
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "form-control" %>
   </div>
 
   <div class="field" class="form-group">
