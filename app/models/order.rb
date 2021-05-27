@@ -53,13 +53,6 @@ class Order < ApplicationRecord
        broadcast()
     end
 
-    def broadcast()
-        OrderChannel.broadcast_to "user_id:#{user_id}", 
-            {   id: id,
-                html: OrdersController.render("/orders/_row", layout:nil, locals: {order: self})
-            }
-    end
-
     validate :can_place_order
     private def can_place_order
         # Check authorized for shorting

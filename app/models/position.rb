@@ -40,11 +40,4 @@ class Position < ApplicationRecord
         broadcast()
     end
  
-    def broadcast()
-         PositionChannel.broadcast_to "user_id:#{user_id}", 
-             {   id: id,
-                 html: PositionsController.render("/positions/_row", layout:nil, locals: {position: self})
-             }
-    end
-
 end

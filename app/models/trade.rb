@@ -23,13 +23,6 @@ class Trade < ApplicationRecord
         broadcast()
     end
  
-    def broadcast()
-         TradeChannel.broadcast_to "user_id:#{user_id}", 
-             {   id: id,
-                 html: TradesController.render("/trades/_row", layout:nil, locals: {trade: self})
-             }
-    end
-
      
     def amount
         price * quantity
