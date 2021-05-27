@@ -1,9 +1,9 @@
 class PositionsController < ApplicationController
-  before_action :set_position, only: %i[ show edit update destroy ]
+  load_and_authorize_resource :except => ["index", "search"]
 
   # GET /positions or /positions.json
   def index
-    @positions = Position.all
+    @positions = Position.all.includes(:user)
   end
 
   # GET /positions/1 or /positions/1.json

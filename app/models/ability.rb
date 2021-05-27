@@ -11,11 +11,15 @@ class Ability
         can :manage, Order, user_id: user.id
         can :read, Trade, user_id: user.id
         can :manage, User, id: user.id
+        can :manage, Position, id: user.Id
+        can :manage, Statement, id: user.id
         can :read, Security
       elsif user.role == 'Admin'  # additional permissions for administrators
           can :manage, Order
           can :manage, Trade
           can :manage, Security
+          can :manage, Position
+          can :manage, Statement
           can :manage, User
       end
   

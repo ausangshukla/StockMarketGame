@@ -1,41 +1,4 @@
 
 <p id="notice" class="alert" role="alert"><%= notice %></p>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Trades</h1>
-</div>
-
-
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>Order</th>
-      <th>Symbol</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Buyer</th>
-      <th>Seller</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @trades.each do |trade| %>
-      <tr>
-        <td><%= trade.order_id %></td>
-        <td><%= trade.symbol %></td>
-        <td><%= trade.quantity %></td>
-        <td><%= trade.price %></td>
-        <td><%= trade.buyer_id %></td>
-        <td><%= trade.seller_id %></td>
-        <td>
-          <%= link_to 'Show', trade, class: "btn btn-primary" %>
-          <%= link_to 'Edit', edit_trade_path(trade), class: "btn btn-primary" %>
-          <%= link_to 'Delete', trade, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-
+<%=render "/trades/index"%>

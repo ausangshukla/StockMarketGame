@@ -2,34 +2,12 @@
 
 <table class="table table-bordered table-striped">
 
-
-
-<tr>
-  <td>
-    <strong>Name:</strong>
-  </td>
-  <td>
-          <%= @position.name %>
-      </td>
-</tr>
-
-
 <tr>
   <td>
     <strong>User:</strong>
   </td>
   <td>
-          <%= @position.user_id %>
-      </td>
-</tr>
-
-
-<tr>
-  <td>
-    <strong>Security:</strong>
-  </td>
-  <td>
-          <%= @position.security_id %>
+          <%= @position.user.full_name %>
       </td>
 </tr>
 
@@ -83,9 +61,12 @@
       </td>
 </tr>
 
-
 </table> 
 
-<%= link_to 'Edit', edit_position_path(@position), class:"btn btn-primary" %> |
-<%= link_to 'Back', positions_path, class:"btn btn-primary" %>
+<div class="action">
+  <%= link_to 'Edit', edit_position_path(@position), class:"btn btn-primary" %> |
+  <%= link_to 'Back', positions_path, class:"btn btn-primary" %>
+</div>
 
+<% @trades = @position.trades %>
+<%= render "/trades/index" %>

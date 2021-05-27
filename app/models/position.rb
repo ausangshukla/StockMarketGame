@@ -30,4 +30,8 @@ class Position < ApplicationRecord
 
         position.save
     end
+
+    def trades 
+        self.user.trades.where(security_id: self.security_id).includes(:user)
+    end
 end

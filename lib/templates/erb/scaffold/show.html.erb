@@ -26,6 +26,7 @@
 
 </table> 
 
-<%%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class:"btn btn-primary" %> |
-<%%= link_to 'Back', <%= index_helper %>_path, class:"btn btn-primary" %>
-
+<div class="action">
+  <%%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class:"btn btn-primary" %> |
+  <%%= link_to 'Back', <%= index_helper %>_path, class:"btn btn-primary" %>
+</div>

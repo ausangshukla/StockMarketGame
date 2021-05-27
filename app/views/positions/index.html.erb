@@ -10,7 +10,7 @@
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Id</th>
       <th>User</th>
       <th>Security</th>
       <th>Symbol</th>
@@ -18,26 +18,20 @@
       <th>Average cost</th>
       <th>Current value</th>
       <th>Eod value</th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @positions.each do |position| %>
       <tr>
-        <td><%= position.name %></td>
-        <td><%= position.user_id %></td>
+        <td><%= link_to position.id, position %></td>
+        <td><%= position.user.full_name %></td>
         <td><%= position.security_id %></td>
         <td><%= position.symbol %></td>
         <td><%= position.quantity %></td>
         <td><%= position.average_cost %></td>
         <td><%= position.current_value %></td>
         <td><%= position.eod_value %></td>
-        <td>
-          <%= link_to 'Show', position, class: "btn btn-primary" %>
-          <%= link_to 'Edit', edit_position_path(position), class: "btn btn-primary" %>
-          <%= link_to 'Delete', position, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-        </td>
       </tr>
     <% end %>
   </tbody>

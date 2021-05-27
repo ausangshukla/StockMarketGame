@@ -3,21 +3,20 @@
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Orders</h1>
-    <%= link_to 'New Order', new_order_path, class: "btn btn-primary" %>
 </div>
 
 
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
+      <th>Id</th>
       <th>User</th>
       <th>Side</th>
       <th>Symbol</th>
       <th>Quantity</th>
       <th>Price</th>
       <th>Price type</th>
-      <th>Order type</th>
-      <th>Qualifier</th>
+      <th>Fill Status</th>
       <th>Filled qty</th>
       <th>Open qty</th>
       <th>Status</th>
@@ -28,21 +27,20 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
+        <td><%= link_to order.id, order %></td>
         <td><%= order.user.full_name %></td>
         <td><%= order.side %></td>
-        <td><%= order.symbol %></td>
+        <td><%= link_to order.symbol, security_path(id: order.security_id) %></td>
         <td><%= order.quantity %></td>
         <td><%= order.price %></td>
         <td><%= order.price_type %></td>
-        <td><%= order.order_type %></td>
-        <td><%= order.qualifier %></td>
+        <td><%= order.fill_status %></td>
         <td><%= order.filled_qty %></td>
         <td><%= order.open_qty %></td>
         <td><%= order.status %></td>
         <td>
-          <%= link_to 'Show', order, class: "btn btn-primary" %>
           <%= link_to 'Edit', edit_order_path(order), class: "btn btn-primary" %>
-          <%= link_to 'Delete', order, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+          <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
         </td>
       </tr>
     <% end %>

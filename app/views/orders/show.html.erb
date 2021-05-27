@@ -33,27 +33,6 @@
       </td>
 </tr>
 
-
-<tr>
-  <td>
-    <strong>Quantity:</strong>
-  </td>
-  <td>
-          <%= @order.quantity %>
-      </td>
-</tr>
-
-
-<tr>
-  <td>
-    <strong>Price:</strong>
-  </td>
-  <td>
-          <%= @order.price %>
-      </td>
-</tr>
-
-
 <tr>
   <td>
     <strong>Price type:</strong>
@@ -74,22 +53,42 @@
 </tr>
 
 
+<% if @order.price_type == Order::LIMIT %>
 <tr>
   <td>
-    <strong>Qualifier:</strong>
+    <strong>Price:</strong>
   </td>
   <td>
-          <%= @order.qualifier %>
+          <%= @order.price %>
+      </td>
+</tr>
+<% end %>
+
+<tr>
+  <td>
+    <strong>Quantity:</strong>
+  </td>
+  <td>
+          <%= @order.quantity %>
       </td>
 </tr>
 
 
 <tr>
   <td>
-    <strong>Linked short cover:</strong>
+    <strong>Status:</strong>
   </td>
   <td>
-          <%= @order.linked_short_cover_id %>
+          <%= @order.status %>
+      </td>
+</tr>
+
+<tr>
+  <td>
+    <strong>Open qty:</strong>
+  </td>
+  <td>
+          <%= @order.open_qty %>
       </td>
 </tr>
 
@@ -106,26 +105,21 @@
 
 <tr>
   <td>
-    <strong>Open qty:</strong>
+    <strong>Fill Status:</strong>
   </td>
   <td>
-          <%= @order.open_qty %>
+          <%= @order.fill_status %>
       </td>
 </tr>
 
-
-<tr>
-  <td>
-    <strong>Status:</strong>
-  </td>
-  <td>
-          <%= @order.status %>
-      </td>
-</tr>
 
 
 </table> 
 
-<%= link_to 'Edit', edit_order_path(@order), class:"btn btn-primary" %> |
-<%= link_to 'Back', orders_path, class:"btn btn-primary" %>
+<div class="action">
+  <%= link_to 'Edit', edit_order_path(@order), class:"btn btn-primary" %> |
+  <%= link_to 'Back', orders_path, class:"btn btn-primary" %>
+</div>
 
+<% @trades = @order.trades.includes(:user) %>
+<%= render "/trades/index" %>

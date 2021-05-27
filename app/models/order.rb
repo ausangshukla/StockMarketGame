@@ -30,7 +30,6 @@ class Order < ApplicationRecord
 
     before_save do 
 
-
         self.status ||= OPEN 
         self.open_qty ||= self.quantity
         self.filled_qty ||= 0
@@ -57,12 +56,12 @@ class Order < ApplicationRecord
         # Check Margin available
 
         # Check Market Open
-        
+
         # if ! (valid...)
         # self.errors[:base] << "Custom error message"
         # end
     end
-    
+
     def block_amount
         trade_price = self.price_type == LIMIT ? self.price : security.price 
         trade_price * quantity        

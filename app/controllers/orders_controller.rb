@@ -1,9 +1,13 @@
 class OrdersController < ApplicationController
   load_and_authorize_resource :except => ["index", "search"]
-
+  
+  def initialize
+    super
+    @exchange = Exchange.get("NYSE")
+  end  
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.all.includes(:user)
   end
 
   # GET /orders/1 or /orders/1.json
@@ -36,7 +40,8 @@ class OrdersController < ApplicationController
     
     respond_to do |format|
       if @order.save
-        format.html { redirect_to @order, notice: "Order was successfully created." }
+        @exchange.processOrder(@order)
+        format.html { redirect_to @order, notice: "Order was successfully sent for execution." }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,7 +54,8 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to @order, notice: "Order was successfully updated." }
+        @exchange.processOrder(@order)
+        format.html { redirect_to @order, notice: "Order was sent for modification." }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,21 +66,22 @@ class OrdersController < ApplicationController
 
   # DELETE /orders/1 or /orders/1.json
   def destroy
-    @order.destroy
+    @order.status = Order::CANCELLED
+    @order.save
+
+    @exchange.processOrder(@order)
+
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: "Order was successfully destroyed." }
+      format.html { redirect_to orders_url, notice: "Order was sent for cancellation." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
-
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:user_id, :side, :symbol, :security_id, :quantity, :price, :price_type, :order_type, :qualifier, :linked_short_cover_id, :filled_qty, :open_qty, :status)
+      params.require(:order).permit(:user_id, :side, :symbol, :security_id, :quantity, :price, 
+        :price_type, :order_type, :qualifier, :linked_short_cover_id, 
+        :filled_qty, :open_qty, :status)
     end
 end

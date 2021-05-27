@@ -7,6 +7,10 @@ module OrderBookConcern
             valid = false
             if( new_order.fill_status != Order::FILLED && # The new order is not already filled
                 existing_order.fill_status != Order::FILLED &&
+                
+                new_order.status == Order::OPEN && # Order is still open
+                existing_order.status == Order::OPEN &&
+                
                 new_order.side != existing_order.side && # the 2 orders are on opposite sides B/S
                 new_order.security_id == existing_order.security_id ) # Both are for the same security
 

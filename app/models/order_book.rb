@@ -27,15 +27,21 @@ class OrderBook < ApplicationRecord
         OrderBook.print_book(@security, @limit_buys, @limit_sells, Order::LIMIT)
     end
 
-    def cancel_order(order)
-        dequeue_order(order)
+    def newOrder(order)
+        process(order)
     end
 
-    def modify_order(order)
+    def modifyOrder(order)
         dequeue_order(order, force=true)
         process(order)
     end
 
+    def cancelOrder(order)
+        dequeue_order(order)
+    end
+
+    
+    private
 
     def crossWithPendingOrders(order, pendingOrders)
         pendingOrders.length > 0 && OrderBook.cross(order, pendingOrders[0]) 
@@ -78,10 +84,7 @@ class OrderBook < ApplicationRecord
 
         self.print()
     end
-
-
-
-    private
+    
     def enqueue_order(order)
 
         if order.status == Order::OPEN && order.fill_status != "Filled"
@@ -133,7 +136,7 @@ class OrderBook < ApplicationRecord
 
     def load        
         orders = Order.open.where(security_id: self.security_id).order("id asc")
-        logger.debug "Loaded #{orders.count} orders for security_id = #{security_id}"
+        logger.debug "Loaded #{orders.count} open orders for security_id = #{security_id}"
         orders.each do |order|
             process(order)
         end
