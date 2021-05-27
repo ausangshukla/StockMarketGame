@@ -1,23 +1,29 @@
 import consumer from "./consumer"
 
-$(document).on('turbolinks:load', function () {
+  $(document).on('turbolinks:load.orders', function () {
 
-  let user_id = $('#current_user_id').attr('data-current-user-id');
-  consumer.subscriptions.create({channel: "OrderChannel", "user_id": user_id}, {
-    connected() {
-      // Called when the subscription is ready for use on the server
-      console.log(`Connected to the order:user_id:${user_id}`);
-    },
+    console.log("Creating channel to the order:user_id");
 
-    disconnected() {
-      // Called when the subscription has been terminated by the server
-    },
+    let user_id = $('#current_user_id').attr('data-current-user-id');
+    consumer.subscriptions.create({channel: "OrderChannel", "user_id": user_id}, {
+      connected() {
+        // Called when the subscription is ready for use on the server
+        console.log(`Connected to the order:user_id:${user_id}`);
+      },
 
-    received(data) {
-      console.log("Received data");
-      console.log(data);
-      $(`#order-${data.id}`).replaceWith(data.html);
-    }
+      disconnected() {
+        // Called when the subscription has been terminated by the server
+      },
+
+      received(data) {
+        console.log("Received data");
+        console.log(data);
+        $(`#order-${data.id}`).replaceWith(data.html);
+      }
+    });
+
   });
 
-});
+  $(document).on('turbolinks:before-render', function() {
+    $(document).off('turbolinks:load.orders');
+  });
