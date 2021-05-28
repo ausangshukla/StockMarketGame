@@ -45,6 +45,8 @@ class Exchange < ApplicationRecord
                 logger.error "Bad order status for Order #{order.id}"
         end 
         
+        order_book.broadcastOrderBook(order)
+
     end
 
     private

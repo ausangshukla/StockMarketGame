@@ -9,8 +9,8 @@ module OrderBookConcern
     
             ActionCable.server.broadcast "order_book:security_id:#{entity.security_id}", 
                 {   id: entity.id,
+                    security_id: entity.security_id,
                     type: name,
-                    data: entity.to_json,
                     html: ApplicationController.render("/#{name.pluralize}/_row", layout:nil, locals: {"#{name}": entity})
                 }
         end

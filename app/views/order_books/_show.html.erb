@@ -1,0 +1,65 @@
+<div id="order_book_<%=order_book.security_id%>">
+    <div id="market_order_book" class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4" id="market_buys">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Market Buys</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: order_book.market_buys} %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <!-- Illustrations -->
+            <div class="card shadow mb-4" id="market_sells">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Market Sells</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: order_book.market_sells, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="limit_order_book" class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4" id="limit_buys">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Limit Buys</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: order_book.limit_buys, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <!-- Illustrations -->
+            <div class="card shadow mb-4" id="limit_sells">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Limit Sells</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: order_book.limit_sells, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

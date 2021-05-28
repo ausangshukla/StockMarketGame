@@ -9,7 +9,7 @@ class OrderSimulator
             
             order = FactoryBot.create(:order, user_id: user_id, 
                 security_id: 1,
-                price_type: rand(10) > 3 ? "Limit" : "Market")
+                price_type: rand(10) > 4 ? "Limit" : "Market")
             exchange.processOrder(order)
             
             sleep(5)
