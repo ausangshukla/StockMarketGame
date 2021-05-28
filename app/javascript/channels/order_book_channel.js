@@ -20,33 +20,22 @@ $(document).on('turbolinks:load.order_books', function () {
         // Called when the subscription has been terminated by the server
       },
 
-      received(order) {
+      received(entity) {
         console.log("Received data");
-        console.log(order);
-        let data = JSON.parse(order.data);
+        console.log(entity);
+        entity.data = JSON.parse(entity.data);
         
-        if($(`#order_book`).length && $('#order_book').attr('data-security-id') == data.security_id) {
-          console.log(`Same security order book = ${data.security_id}`);
-          //We are on the order book page for the same security
-          
-          if(data.fill_status=='Filled' || data.status=='Cancelled') {
-            this.removeOrder(order);
-          } else {
-            if(data.side == "B" && data.price_type == "Limit") {
-              this.replaceOrAdd("limit_buys", order);
-            }
-            else if(data.side == "S" && data.price_type == "Limit") {
-              this.replaceOrAdd("limit_sells", order);
-            }
-            else if(data.side == "B" && data.price_type == "Market") {
-              this.replaceOrAdd("market_buys", order);
-            }
-            else if(data.side == "S" && data.price_type == "Market") {
-              this.replaceOrAdd("market_sells", order);
-            } else {
-              console.log(`Unmatched order ${data.side} ${data.price_type}`);  
-            }
+        if($(`#order_book`).length && $('#order_book').attr('data-security-id') == entity.data.security_id) {
+          // console.log(`Same security order book = ${entity.data.security_id}`);
+          // We are on the order book page for the same security
+          if(entity.type == "order") {
+            this.processOrder(entity);
+          } else if(entity.type == "trade") {
+            this.processTrade(entity);
+          } else if(entity.type == "order_book") {
+            this.processOrderBook(entity);
           }
+          
         }
         else {
           console.log("Ignoring received order 1");
@@ -54,10 +43,44 @@ $(document).on('turbolinks:load.order_books', function () {
 
       },
 
-      removeOrder(order) {
-        console.log("Removing order");
-        $(`#order_book #order-${order.id}`).remove();
+      processTrade(trade, data) {
+        $("#order_book #trade_table").prepend(trade.html);
       },
+
+      processOrder(order) {
+        let data = order.data;
+        if(data.fill_status=='Filled' || data.status=='Cancelled') {
+          $(`#order_book #order-${order.id}`).remove();
+        } 
+      },
+
+      processOrderBook(order) {
+          let data = order.data;
+
+          if(data.price_type == "Limit") {
+
+            if(data.side == 'B') {
+              console.log("Replacing limit buys");
+              $(`#limit_buys #order_table`).replaceWith(order.html);
+            } else {
+              console.log("Replacing limit sells");
+              $(`#limit_sells #order_table`).replaceWith(order.html);
+            }      
+
+          } else if(data.price_type == "Market") {
+
+            if(data.side == 'B') {
+              console.log("Replacing market buys");
+              $(`#market_buys #order_table`).replaceWith(order.html);
+            } else {
+              console.log("Replacing market sells");
+              $(`#market_sells #order_table`).replaceWith(order.html);
+            }      
+
+          }
+    
+      },
+
 
       replaceOrAdd(div_name, order) {
         console.log(`Trying #${div_name} #order-${order.id}`);
@@ -66,10 +89,10 @@ $(document).on('turbolinks:load.order_books', function () {
           // If we already have this order
           console.log("Replacing order");
           $(`#${div_name} #order-${order.id}`).replaceWith(order.html);
-        } else if($(`#${div_name} #order_table`).length) {
+        } else if($(`#${div_name} #order_table_body`).length) {
           // We need to add this order
           console.log("Appending order");
-          $(`#${div_name} #order_table`).append(order.html);
+          $(`#${div_name} #order_table_body`).append(order.html);
         } else {
           console.log("Ignoring received order 2");
         }

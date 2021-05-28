@@ -6,7 +6,39 @@
         <h1 class="h3 mb-0 text-gray-800">Order Book: <%= @order_book.symbol %></h1>
     </div>
 
-    <div class="row">
+    <div id="market_order_book" class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4" id="market_buys">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Market Buys</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: @order_book.market_buys} %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <!-- Illustrations -->
+            <div class="card shadow mb-4" id="market_sells">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Market Sells</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: @order_book.market_sells, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="limit_order_book" class="row">
 
         <!-- Content Column -->
         <div class="col-lg-6 mb-4">
@@ -37,7 +69,6 @@
 
         </div>
     </div>
-
 
     <div class="row">
         <% @trades = [] %>

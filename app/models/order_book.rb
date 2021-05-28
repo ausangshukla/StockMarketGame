@@ -5,6 +5,8 @@ class OrderBook < ApplicationRecord
     belongs_to :exchange
     attr_reader :limit_buys
     attr_reader :limit_sells
+    attr_reader :market_buys
+    attr_reader :market_sells
 
     after_initialize do
         @limit_buys = []
@@ -30,6 +32,7 @@ class OrderBook < ApplicationRecord
 
     def newOrder(order)
         process(order)
+        broadcastOrderBook(order)
     end
 
     def modifyOrder(order)
@@ -40,6 +43,30 @@ class OrderBook < ApplicationRecord
     def cancelOrder(order)
         dequeue_order(order)
     end
+
+
+    def broadcastOrderBook(order)
+        order_list = []
+
+        case[order.side, order.price_type]
+            when [Order::BUY, Order::LIMIT] 
+                order_list = @limit_buys
+            when [Order::SELL, Order::LIMIT] 
+                order_list = @limit_sells
+            when [Order::BUY, Order::MARKET]
+                order_list = @market_buys
+            when [Order::SELL, Order::MARKET]
+                order_list = @market_sells
+        end
+
+        ActionCable.server.broadcast "order_book:security_id:#{order.security_id}", 
+            {   id: order.id,
+                type: "order_book",
+                data: order.to_json,
+                html: ApplicationController.render("/orders/_index", layout:nil, locals: {"orders": order_list})
+            }
+    end
+
 
     
     private

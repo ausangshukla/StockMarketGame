@@ -35,10 +35,10 @@ import consumer from "./consumer"
           // If we already have this order
           console.log("Replacing order");
           $(`#${div_name} #order-${order.id}`).replaceWith(order.html);
-        } else if($(`#${div_name} #order_table`).length) {
+        } else if($(`#${div_name} #order_table_body`).length) {
           // We need to add this order
           console.log("Appending order");
-          $(`#${div_name} #order_table`).append(order.html);
+          $(`#${div_name} #order_table_body`).append(order.html);
         } else {
           console.log("Ignoring received order 2");
         }
