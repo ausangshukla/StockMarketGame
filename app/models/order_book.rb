@@ -22,20 +22,6 @@ class OrderBook < ApplicationRecord
         Order::MARKET + "-" + Order::BUY => @market_buys,
         Order::MARKET + "-" + Order::SELL => @market_sells
     }
-
-
-    def self.broadcast(entity)
-
-        name = entity.class.name.underscore
-
-        ActionCable.server.broadcast "order_book:security_id:#{entity.security_id}", 
-            {   id: entity.id,
-                type: name,
-                data: entity.to_json,
-                html: ApplicationController.render("/#{name.pluralize}/_row", layout:nil, locals: {"#{name}": entity})
-            }
-    end
-
     
     def print
         OrderBook.print_book(@security, @market_buys, @market_sells, Order::MARKET)
@@ -98,6 +84,7 @@ class OrderBook < ApplicationRecord
         end
 
         self.print()
+
     end
     
     def enqueue_order(order)

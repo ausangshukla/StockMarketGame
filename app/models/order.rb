@@ -51,6 +51,7 @@ class Order < ApplicationRecord
 
     after_save do
        broadcast()
+       OrderBook.broadcast(self)
     end
 
     validate :can_place_order

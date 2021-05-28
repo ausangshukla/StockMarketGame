@@ -22,31 +22,41 @@ $(document).on('turbolinks:load.order_books', function () {
 
       received(order) {
         console.log("Received data");
+        console.log(order);
         let data = JSON.parse(order.data);
         
         if($(`#order_book`).length && $('#order_book').attr('data-security-id') == data.security_id) {
           console.log(`Same security order book = ${data.security_id}`);
-        
           //We are on the order book page for the same security
-          if(data.side == "B" && data.price_type == "Limit") {
-            this.replaceOrAdd("limit_buys", order);
-          }
-          else if(data.side == "S" && data.price_type == "Limit") {
-            this.replaceOrAdd("limit_sells", order);
-          }
-          else if(data.side == "B" && data.price_type == "Market") {
-            this.replaceOrAdd("market_buys", order);
-          }
-          else if(data.side == "S" && data.price_type == "Market") {
-            this.replaceOrAdd("market_sells", order);
+          
+          if(data.fill_status=='Filled' || data.status=='Cancelled') {
+            this.removeOrder(order);
           } else {
-            console.log(`Unmatched order ${data.side} ${data.price_type}`);  
+            if(data.side == "B" && data.price_type == "Limit") {
+              this.replaceOrAdd("limit_buys", order);
+            }
+            else if(data.side == "S" && data.price_type == "Limit") {
+              this.replaceOrAdd("limit_sells", order);
+            }
+            else if(data.side == "B" && data.price_type == "Market") {
+              this.replaceOrAdd("market_buys", order);
+            }
+            else if(data.side == "S" && data.price_type == "Market") {
+              this.replaceOrAdd("market_sells", order);
+            } else {
+              console.log(`Unmatched order ${data.side} ${data.price_type}`);  
+            }
           }
         }
         else {
           console.log("Ignoring received order 1");
         }
 
+      },
+
+      removeOrder(order) {
+        console.log("Removing order");
+        $(`#order_book #order-${order.id}`).remove();
       },
 
       replaceOrAdd(div_name, order) {

@@ -3,6 +3,19 @@ module OrderBookConcern
   
     class_methods do
 
+        def broadcast(entity)
+
+            name = entity.class.name.underscore
+    
+            ActionCable.server.broadcast "order_book:security_id:#{entity.security_id}", 
+                {   id: entity.id,
+                    type: name,
+                    data: entity.to_json,
+                    html: ApplicationController.render("/#{name.pluralize}/_row", layout:nil, locals: {"#{name}": entity})
+                }
+        end
+    
+
         def valid_cross?(new_order, existing_order)
             valid = false
             if( new_order.fill_status != Order::FILLED && # The new order is not already filled
@@ -73,6 +86,7 @@ module OrderBookConcern
                 return false
             end
         end
+        
 
         # See how it works. https://medium.com/reactivemarkets/limit-order-books-9d48adf2c517
         def getPrice(new_order, existing_order)
