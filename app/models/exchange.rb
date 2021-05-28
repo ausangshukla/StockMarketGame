@@ -25,6 +25,14 @@ class Exchange < ApplicationRecord
         end
     end
 
+    def all_order_books
+        @order_books.values
+    end
+
+    def get_order_book(symbol)
+        @order_books[symbol]
+    end
+
     def processOrder(order)
         order_book = getOrderBook(order.security)
 
@@ -47,7 +55,7 @@ class Exchange < ApplicationRecord
         order_book = @order_books[security.symbol]
         
         if !order_book
-            order_book ||= OrderBook.new(security_id: security.id) 
+            order_book ||= OrderBook.new(security_id: security.id, id: security.id, symbol: security.symbol) 
             @order_books[security.symbol] = order_book
         end
 

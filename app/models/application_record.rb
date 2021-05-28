@@ -7,6 +7,7 @@ class ApplicationRecord < ActiveRecord::Base
 
     ActionCable.server.broadcast "#{name}:user_id:#{user_id}", 
           {   id: id,
+              data: self.to_json,
               html: ApplicationController.render("/#{name.pluralize}/_row", layout:nil, locals: {"#{name}": self})
           }
   end

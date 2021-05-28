@@ -17,19 +17,23 @@ import consumer from "./consumer"
         // Called when the subscription has been terminated by the server
       },
 
-      received(data) {
-        
-        if($(`#trade-${data.id}`).length) {
-          console.log("Replacing data");
-          console.log(data);
-          $(`#trade-${data.id}`).replaceWith(data.html);
+      received(trade) {
+        console.log("Received trade");
+        if($(`#all_trades`).length) {
+          if($(`#all_trades #trade-${trade.id}`).length) {
+            console.log("Replacing trade");
+            console.log(trade);
+            $(`#all_trades #trade-${trade.id}`).replaceWith(trade.html);
+          } else {
+            console.log("Appending trade");
+            console.log(trade);
+            $("#all_trades #trade_table").append(trade.html);
+          }
         } else {
-          console.log("Appending data");
-          console.log(data);
-          $("#trade_table").append(data.html);
+          console.log("Ignoring received trade");
         }
-      }
 
+      }
     });
 
   });

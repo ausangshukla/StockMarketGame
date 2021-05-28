@@ -15,10 +15,33 @@ import consumer from "./consumer"
         // Called when the subscription has been terminated by the server
       },
 
-      received(data) {
-        console.log("Received data");
-        console.log(data);
-        $(`#order-${data.id}`).replaceWith(data.html);
+      received(order) {
+        console.log("Received order");        
+        let data = JSON.parse(order.data);
+        
+        if($(`#all_orders`).length) {
+          this.replaceOrAdd("all_orders", order);
+        } 
+        else {
+          console.log("Ignoring received order 1");
+        }
+
+      },
+
+      replaceOrAdd(div_name, order) {
+        console.log(`Trying #${div_name} #order-${order.id}`);
+        // If we are on the orders page
+        if($(`#${div_name} #order-${order.id}`).length) {
+          // If we already have this order
+          console.log("Replacing order");
+          $(`#${div_name} #order-${order.id}`).replaceWith(order.html);
+        } else if($(`#${div_name} #order_table`).length) {
+          // We need to add this order
+          console.log("Appending order");
+          $(`#${div_name} #order_table`).append(order.html);
+        } else {
+          console.log("Ignoring received order 2");
+        }
       }
     });
 

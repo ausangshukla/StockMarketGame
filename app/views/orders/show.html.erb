@@ -121,7 +121,8 @@
 
 <div class="action">
   <%= link_to 'Edit', edit_order_path(@order), class:"btn btn-primary" %> |
-  <%= link_to 'Back', orders_path, class:"btn btn-primary" %>
+  <%= link_to 'Back', orders_path, class:"btn btn-primary" %> |
+  <%= link_to 'Cancel', @order, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
 </div>
 
 <% @trades = @order.trades.includes(:user) %>

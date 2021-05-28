@@ -1,31 +1,57 @@
 <p id="notice"><%= notice %></p>
 
-<table class="table table-bordered table-striped">
+<div id="order_book" data-security-id="<%=@order_book.security_id%>" >
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Order Book: <%= @order_book.symbol %></h1>
+    </div>
+
+    <div class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4" id="limit_buys">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Limit Buys</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: @order_book.limit_buys, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <!-- Illustrations -->
+            <div class="card shadow mb-4" id="limit_sells">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Limit Sells</h6>
+                </div>
+                <div class="card-body">
+                    <%= render "/orders/index", {orders: @order_book.limit_sells, order_book: true} %>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
+    <div class="row">
+        <% @trades = [] %>
+        <div class="col-lg-12 mb-4">
 
-<tr>
-  <td>
-    <strong>Symbol:</strong>
-  </td>
-  <td>
-          <%= @order_book.symbol %>
-      </td>
-</tr>
+            <!-- Trades -->
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <%= render "/trades/index" %>
+                </div>
+            </div>
 
+        </div>
 
-<tr>
-  <td>
-    <strong>Security:</strong>
-  </td>
-  <td>
-          <%= @order_book.security_id %>
-      </td>
-</tr>
+    </div>
 
-
-</table> 
-
-<%= link_to 'Edit', edit_order_book_path(@order_book), class:"btn btn-primary" %> |
-<%= link_to 'Back', order_books_path, class:"btn btn-primary" %>
-
+</div>

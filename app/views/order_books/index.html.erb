@@ -22,8 +22,7 @@
         <td><%= order_book.symbol %></td>
         <td><%= order_book.security_id %></td>
         <td>
-          <%= link_to 'Show', order_book, class: "btn btn-primary" %>
-          <%= link_to 'Edit', edit_order_book_path(order_book), class: "btn btn-primary" %>
+          <%= link_to 'Show', order_book_path(symbol:order_book.symbol, id:order_book.id), class: "btn btn-primary" %>
           <%= link_to 'Delete', order_book, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
         </td>
       </tr>

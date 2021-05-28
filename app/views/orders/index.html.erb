@@ -1,34 +1,11 @@
 
 <p id="notice" class="alert" role="alert"><%= notice %></p>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Orders</h1>
+
+<div id="all_orders">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Orders</h1>
+    </div>
+
+    <%= render "/orders/index", {orders: @orders} %>
 </div>
-
-
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>User</th>
-      <th>Side</th>
-      <th>Symbol</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Price type</th>
-      <th>Fill Status</th>
-      <th>Filled qty</th>
-      <th>Open qty</th>
-      <th>Status</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @orders.each do |order| %>
-      <%=render "/orders/row", {order: order}%>
-    <% end %>
-  </tbody>
-</table>
-
-

@@ -1,0 +1,26 @@
+
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Side</th>
+      <th>Symbol</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Price type</th>
+      <th>Fill Status</th>
+      <th>Filled qty</th>
+      <th>Open qty</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody id="order_table">
+    <% orders.each do |order| %>
+      <%=render "/orders/row", {order: order}%>
+    <% end %>
+  </tbody>
+</table>
+
+
