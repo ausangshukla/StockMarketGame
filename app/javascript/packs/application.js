@@ -15,10 +15,17 @@ ActiveStorage.start()
 
 //require("bootstrap");
 require('jquery');
+
+
 import 'bootstrap'
 import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap'
 import "../stylesheets/application";
+
+// require('jquery-ui');
+// require.context('file-loader?name=[path][name].[ext]&context=node_modules/jquery-ui-dist!jquery-ui-dist', true,    /jquery-ui\.css/ );
+// require.context('file-loader?name=[path][name].[ext]&context=node_modules/jquery-ui-dist!jquery-ui-dist', true,    /jquery-ui\.theme\.css/ );
+
 
 document.addEventListener("turbolinks:load", function() {
     $(function () {

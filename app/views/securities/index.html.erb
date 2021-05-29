@@ -12,15 +12,15 @@
     <tr>
       <th>Sec type</th>
       <th>Symbol</th>
-      <th>Name</th>
-      <th>Prev closing price</th>
-      <th>Opening trade price</th>
-      <th>Day high price</th>
-      <th>Day low price</th>
+      <th class="d-none d-sm-table-cell">Name</th>
+      <th class="d-none d-sm-table-cell">Prev closing price</th>
+      <th class="d-none d-sm-table-cell">Opening trade price</th>
+      <th class="d-none d-sm-table-cell">Day high price</th>
+      <th class="d-none d-sm-table-cell">Day low price</th>
       <th>Price</th>
-      <th>Market cap</th>
-      <th>Pe</th>
-      <th>Last trade date</th>
+      <th class="d-none d-sm-table-cell">Market cap</th>
+      <th class="d-none d-sm-table-cell">Pe</th>
+      <th class="d-none d-sm-table-cell">Last trade date</th>
       <th></th>
     </tr>
   </thead>
@@ -30,15 +30,15 @@
       <tr>
         <td><%= security.sec_type %></td>
         <td><%= link_to security.symbol, security %></td>
-        <td><%= security.name %></td>
-        <td><%= security.prev_closing_price %></td>
-        <td><%= security.opening_trade_price %></td>
-        <td><%= security.day_high_price %></td>
-        <td><%= security.day_low_price %></td>
+        <td class="d-none d-sm-table-cell"class="d-none d-sm-table-cell"><%= security.name %></td>
+        <td class="d-none d-sm-table-cell"><%= security.prev_closing_price %></td>
+        <td class="d-none d-sm-table-cell"><%= security.opening_trade_price %></td>
+        <td class="d-none d-sm-table-cell"><%= security.day_high_price %></td>
+        <td class="d-none d-sm-table-cell"><%= security.day_low_price %></td>
         <td id="sec_price_<%=security.id%>"><%= security.price %></td>
-        <td><%= security.market_cap %></td>
-        <td><%= security.pe %></td>
-        <td><%= security.last_trade_date %></td>
+        <td class="d-none d-sm-table-cell"><%= security.market_cap %></td>
+        <td class="d-none d-sm-table-cell"><%= security.pe %></td>
+        <td class="d-none d-sm-table-cell"><%= security.last_trade_date %></td>
         <td>
           <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-success" %>          
           <%= link_to 'Edit', edit_security_path(security), class: "btn btn-primary" %>

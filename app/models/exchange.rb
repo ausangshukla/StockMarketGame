@@ -7,20 +7,27 @@ class Exchange < ApplicationRecord
     # The order books for each symbol
     @order_books = {}
 
+    # Sends a message to the OrderSimulator to simulate order creation
     def self.simulate(exchange_name, security_id, count=20)
         Redis.new.publish("simulator", 
             {exchange: exchange_name, security_id: security_id, count: count}.to_json)
     end
 
+    # Used to send an order to the exchange for processing
+    # This is only after the order has been saved in the DB
     def self.publish(exchange_name, order)
         Redis.new.publish(exchange_name, order.id)
     end
     
+    # Used to broadcast the entire order book
+    # This is used when we show the user book to the UI. Note order book current state is in memory only
     def self.broadcastOrderBook(exchange_name, security_id)
         Redis.new.publish("#{exchange_name}-broadcast", security_id)
     end
     
     
+    # This is the core event loop for the exchange
+    # It receives orders to process here
     def receive
         redis = Redis.new(timeout:0)
         redis.subscribe(name, "#{name}-reload", "#{name}-broadcast") do |on|
@@ -32,7 +39,6 @@ class Exchange < ApplicationRecord
                             processOrder(o)
                         when "#{name}-reload"
                             logger.info "Reloading order books at #{name}"
-                            @order_books = {}
                             init_order_books
                         when "#{name}-broadcast"
                             sec = Security.find(id)
@@ -66,14 +72,12 @@ class Exchange < ApplicationRecord
     end
 
     
-    # def get_order_book(symbol)
-    #     @order_books[symbol]
-    # end
-
     private
 
     # Returns the appropriate order book
     def init_order_books
+        @order_books = {}
+
         Security.all.each do |sec|
             getOrderBook(sec)
         end

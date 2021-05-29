@@ -54,6 +54,13 @@ class Order < ApplicationRecord
        broadcast()
     end
 
+    def is_limit?
+        self.price_type == LIMIT
+    end
+    def is_market?
+        self.price_type == MARKET
+    end
+
     validate :can_place_order
     private def can_place_order
         # Check authorized for shorting

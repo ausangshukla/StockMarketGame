@@ -1,13 +1,17 @@
 <tr id="order-<%=order.id%>">
     <td><%= link_to "Order-#{order.id}", order %></td>
-    <td><%= order.side %></td>
+    <td>
+        <%= order.side %>        
+        <span class="d-sm-none"><%= order.price_type %></span>
+        <span class="d-sm-none"><%= order.price if order.is_limit? %></span>
+    </td>
     <td><%= link_to order.symbol, security_path(id: order.security_id) %></td>
     <td><%= order.quantity %></td>
-    <td><%= order.price %></td>
-    <td><%= order.price_type %></td>
-    <td><%= order.fill_status %></td>
-    <td><%= order.filled_qty %></td>
-    <td><%= order.open_qty %></td>
-    <td><%= order.status %></td>
+    <td class="d-none d-sm-table-cell"><%= order.price if order.is_limit? %></td>
+    <td class="d-none d-sm-table-cell"><%= order.price_type %></td>
+    <td class="d-none d-sm-table-cell"><%= order.fill_status %></td>
+    <td class="d-none d-sm-table-cell"><%= order.filled_qty %></td>
+    <td class="d-none d-sm-table-cell"><%= order.open_qty %></td>
+    <td class="d-none d-sm-table-cell"><%= order.status %></td>
     
 </tr>
