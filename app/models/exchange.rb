@@ -7,6 +7,11 @@ class Exchange < ApplicationRecord
     # The order books for each symbol
     @order_books = {}
 
+    def self.simulate(exchange_name, security_id, count=20)
+        Redis.new.publish("simulator", 
+            {exchange: exchange_name, security_id: security_id, count: count}.to_json)
+    end
+
     def self.publish(exchange_name, order)
         Redis.new.publish(exchange_name, order.id)
     end

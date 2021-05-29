@@ -2,7 +2,7 @@ class OrderBooksController < ApplicationController
   load_and_authorize_resource :except => ["index", "search", "show"]
 
   def run_simulation
-    OrderSimulator.simulate(params[:security_id], params[:count])
+    Exchange.simulate("NYSE", params[:security_id], 3)    
   end
 
   # GET /order_books/1 or /order_books/1.json
