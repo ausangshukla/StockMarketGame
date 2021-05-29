@@ -1,10 +1,6 @@
 class OrdersController < ApplicationController
   load_and_authorize_resource :except => ["index", "search"]
   
-  def initialize
-    super
-    @exchange = Exchange.get("NYSE")
-  end  
   # GET /orders or /orders.json
   def index
     @orders = Order.all.includes(:user)
@@ -40,7 +36,7 @@ class OrdersController < ApplicationController
     
     respond_to do |format|
       if @order.save
-        @exchange.processOrder(@order)
+        Exchange.publish("NYSE", @order)
         format.html { redirect_to @order, notice: "Order was successfully sent for execution." }
         format.json { render :show, status: :created, location: @order }
       else
@@ -54,7 +50,7 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        @exchange.processOrder(@order)
+        Exchange.publish("NYSE", @order)
         format.html { redirect_to @order, notice: "Order was sent for modification." }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -69,7 +65,7 @@ class OrdersController < ApplicationController
     @order.status = Order::CANCELLED
     @order.save
 
-    @exchange.processOrder(@order)
+    Exchange.publish("NYSE", @order)
 
     respond_to do |format|
       format.html { redirect_to orders_url, notice: "Order was sent for cancellation." }

@@ -1,36 +1,29 @@
 class Exchange < ApplicationRecord
 
-    # Stores all the exchanges available
-    @@exchanges = {}
+    after_initialize do
+        init_order_books()
+    end
 
     # The order books for each symbol
     @order_books = {}
 
-
-    def self.get(name)
-        ex = @@exchanges[name]
-
-        if ex == nil
-            ex = Exchange.new(name: name)
-            ex.init_order_books
-            @@exchanges[name] = ex
-        end
+    def self.publish(exchange_name, order)
+        Redis.new.publish(exchange_name, order.id)
+    end
     
-        @@exchanges[name]
-    end
-
-    def init_order_books
-        Security.all.each do |sec|
-            getOrderBook(sec)
+    
+    def receive
+        redis = Redis.new(timeout:0)
+        redis.subscribe(name) do |on|
+            on.message do |channel, order_id|
+                begin
+                    o = Order.find(order_id)
+                    processOrder(o)
+                rescue => error
+                    logger.error "Error in processing #{order_id} #{error.message}"
+                end
+            end
         end
-    end
-
-    def all_order_books
-        @order_books.values
-    end
-
-    def get_order_book(symbol)
-        @order_books[symbol]
     end
 
     def processOrder(order)
@@ -49,15 +42,27 @@ class Exchange < ApplicationRecord
 
     end
 
+    
+    # def get_order_book(symbol)
+    #     @order_books[symbol]
+    # end
+
     private
 
     # Returns the appropriate order book
+    def init_order_books
+        Security.all.each do |sec|
+            getOrderBook(sec)
+        end
+    end
+
     def getOrderBook(security)
         @order_books ||= Hash.new
         order_book = @order_books[security.symbol]
         
         if !order_book
             order_book ||= OrderBook.new(security_id: security.id, id: security.id, symbol: security.symbol) 
+            order_book.load()
             @order_books[security.symbol] = order_book
         end
 

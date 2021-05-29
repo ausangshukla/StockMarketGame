@@ -1,6 +1,5 @@
 class OrderSimulator
     def self.simulate(security_id, count=20, sleep_time=5)
-        exchange = Exchange.get("NYSE")
         users = User.where(role: "Simulator")
         securities = Security.all
 
@@ -12,7 +11,8 @@ class OrderSimulator
             order = FactoryBot.create(:order, user_id: user_id, 
                 security_id: security_id,
                 price_type: rand(10) > 4 ? "Limit" : "Market")
-            exchange.processOrder(order)
+
+            Exchange.publish("NYSE", order)
             
             sleep(sleep_time)
         end

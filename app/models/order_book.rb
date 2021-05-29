@@ -14,7 +14,6 @@ class OrderBook < ApplicationRecord
         @market_buys = []
         @market_sells = []
         @security = Security.find(security_id)
-        self.load()
     end
 
 
@@ -54,6 +53,15 @@ class OrderBook < ApplicationRecord
             }
     end
 
+    def load        
+        orders = Order.open.not_filled.where(security_id: self.security_id).order("id asc")
+        logger.debug "Loaded #{orders.count} open orders for security_id = #{security_id}"
+        orders.each do |order|
+            process(order)
+        end
+        logger.debug "Sells: #{@limit_sells.size} Buys: #{@limit_buys.size}"
+        print()
+    end
 
     
     private
@@ -151,14 +159,5 @@ class OrderBook < ApplicationRecord
 
     end
 
-    def load        
-        orders = Order.open.not_filled.where(security_id: self.security_id).order("id asc")
-        logger.debug "Loaded #{orders.count} open orders for security_id = #{security_id}"
-        orders.each do |order|
-            process(order)
-        end
-        logger.debug "Sells: #{@limit_sells.size} Buys: #{@limit_buys.size}"
-        print()
-    end
-
+    
 end
