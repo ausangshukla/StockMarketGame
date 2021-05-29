@@ -13,18 +13,21 @@ Turbolinks.start()
 ActiveStorage.start()
 
 
-require("bootstrap");
+//require("bootstrap");
 require('jquery');
-require('webpack-jquery-ui');
-require('webpack-jquery-ui/effects');
-
-require('webpack-jquery-ui/css');
-
+import 'bootstrap'
+import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap/dist/css/bootstrap'
 import "../stylesheets/application";
-document.addEventListener("turbolinks:load", function() {
 
+document.addEventListener("turbolinks:load", function() {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+    });
 })
 require("trix")
 require("@rails/actiontext")
 
 Turbolinks.setProgressBarDelay(1000)
+

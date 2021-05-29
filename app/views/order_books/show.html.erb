@@ -4,6 +4,12 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Order Book: <%= @order_book.symbol %></h1>
+        <form action="/order_books/run_simulation" method="post">
+          <button type="submit" class="btn btn-success">
+              Simulate Orders
+          </button>
+          <input type=text name=security_id value=<%=@order_book.security_id%> class="hidden"/>
+        </form>
     </div>
 
     <%=render "/order_books/show", {order_book: @order_book}%>
@@ -24,3 +30,4 @@
     </div>
 
 </div>
+

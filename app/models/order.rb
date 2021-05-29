@@ -10,6 +10,7 @@ class Order < ApplicationRecord
     FILL_STATUS = ["Filled", "Partially Filled", "Not Filled"]
 
     scope :open, -> { where(status: OPEN) }
+    scope :not_filled, -> { where("fill_status <> 'Filled'") }
 
     BUY = "B"
     SELL = "S"

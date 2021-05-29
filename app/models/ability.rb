@@ -9,6 +9,7 @@ class Ability
   
       if user.role == 'User'
         can :manage, Order, user_id: user.id
+        can :read, OrderBook
         can :read, Trade, user_id: user.id
         can :manage, User, id: user.id
         can :manage, Position, id: user.Id
@@ -16,6 +17,7 @@ class Ability
         can :read, Security
       elsif user.role == 'Admin'  # additional permissions for administrators
           can :manage, Order
+          can :manage, OrderBook
           can :manage, Trade
           can :manage, Security
           can :manage, Position

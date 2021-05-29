@@ -11,6 +11,10 @@ class OrderBooksController < ApplicationController
     @order_books = @exchange.all_order_books
   end
 
+  def run_simulation
+    OrderSimulator.simulate(params[:security_id], params[:count])
+  end
+
   # GET /order_books/1 or /order_books/1.json
   def show
     @order_book = @exchange.get_order_book(params[:symbol])

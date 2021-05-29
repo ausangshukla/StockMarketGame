@@ -152,7 +152,7 @@ class OrderBook < ApplicationRecord
     end
 
     def load        
-        orders = Order.open.where(security_id: self.security_id).order("id asc")
+        orders = Order.open.not_filled.where(security_id: self.security_id).order("id asc")
         logger.debug "Loaded #{orders.count} open orders for security_id = #{security_id}"
         orders.each do |order|
             process(order)
