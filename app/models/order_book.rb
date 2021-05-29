@@ -43,9 +43,9 @@ class OrderBook < ApplicationRecord
     end
 
 
-    def broadcastOrderBook(order)
+    def broadcastOrderBook()
 
-        ActionCable.server.broadcast "order_book:security_id:#{order.security_id}", 
+        ActionCable.server.broadcast "order_book:security_id:#{self.security_id}", 
             {   id: self.id,
                 type: "order_book",
                 security_id: self.security_id,

@@ -8,6 +8,7 @@ class OrderBooksController < ApplicationController
   # GET /order_books/1 or /order_books/1.json
   def show
     @order_book = OrderBook.new(security_id: params[:security_id], symbol: params[:symbol])
+    Exchange.broadcastOrderBook("NYSE", params[:security_id])
   end
 
   private

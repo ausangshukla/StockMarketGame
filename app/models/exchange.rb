@@ -11,16 +11,34 @@ class Exchange < ApplicationRecord
         Redis.new.publish(exchange_name, order.id)
     end
     
+    def self.broadcastOrderBook(exchange_name, security_id)
+        Redis.new.publish("#{exchange_name}-broadcast", security_id)
+    end
+    
     
     def receive
         redis = Redis.new(timeout:0)
-        redis.subscribe(name) do |on|
-            on.message do |channel, order_id|
+        redis.subscribe(name, "#{name}-reload", "#{name}-broadcast") do |on|
+            on.message do |channel, id|
                 begin
-                    o = Order.find(order_id)
-                    processOrder(o)
+                    case channel
+                        when name
+                            o = Order.find(id)
+                            processOrder(o)
+                        when "#{name}-reload"
+                            logger.info "Reloading order books at #{name}"
+                            @order_books = {}
+                            init_order_books
+                        when "#{name}-broadcast"
+                            sec = Security.find(id)
+                            order_book = getOrderBook(sec)
+                            logger.info "Broadcasting order book for #{sec.symbol} at #{name}"
+                            sleep(3)
+                            order_book.broadcastOrderBook()
+                    end
                 rescue => error
-                    logger.error "Error in processing #{order_id} #{error.message}"
+                    puts error.backtrace
+                    logger.error "Error in processing #{id} #{error.message}"
                 end
             end
         end
@@ -38,7 +56,7 @@ class Exchange < ApplicationRecord
                 logger.error "Bad order status for Order #{order.id}"
         end 
         
-        order_book.broadcastOrderBook(order)
+        order_book.broadcastOrderBook()
 
     end
 
