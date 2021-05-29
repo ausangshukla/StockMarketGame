@@ -42,6 +42,8 @@ import consumer from "./consumer"
         } else {
           console.log("Ignoring received order 2");
         }
+
+        $(`#${div_name} #order-${order.id}`).effect("highlight", {color:'#BCFCDD'}, 3000);
       }
     });
 

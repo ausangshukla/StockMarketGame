@@ -19,7 +19,7 @@ $(document).on('turbolinks:load.securities', function () {
       console.log(data)
       let price_node = $(`#sec_price_${data.id}`);
       price_node.html(data.price);
-      
+      price_node.effect("highlight", {color:'#BCFCDD'}, 3000);
     }
   });
 

@@ -44,7 +44,7 @@ class Exchange < ApplicationRecord
                             sec = Security.find(id)
                             order_book = getOrderBook(sec)
                             logger.info "Broadcasting order book for #{sec.symbol} at #{name}"
-                            sleep(3)
+                            sleep(1)
                             order_book.broadcastOrderBook()
                     end
                 rescue => error
