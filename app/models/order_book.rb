@@ -43,10 +43,11 @@ class OrderBook < ApplicationRecord
     end
 
 
-    def broadcastOrderBook()
+    def broadcastOrderBook(order=nil)
 
         ActionCable.server.broadcast "order_book:security_id:#{self.security_id}", 
             {   id: self.id,
+                order_id: order&.id,
                 type: "order_book",
                 security_id: self.security_id,
                 html: ApplicationController.render("/order_books/_show", layout:nil, locals: {"order_book": self})

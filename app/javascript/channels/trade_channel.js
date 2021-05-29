@@ -29,6 +29,8 @@ import consumer from "./consumer"
             console.log(trade);
             $("#all_trades #trade_table").append(trade.html);
           }
+
+          $(`#trade-${trade.id}`).effect("highlight", {color:'#BCFCDD'}, 3000);
         } else {
           console.log("Ignoring received trade");
         }

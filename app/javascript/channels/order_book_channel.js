@@ -28,6 +28,7 @@ $(document).on('turbolinks:load.order_books', function () {
           
           if(entity.type == "order_book") {
             $(`#order_book_${entity.security_id}`).replaceWith(entity.html);
+            $(`#order-${entity.order_id}`).effect("highlight", {color:'#BCFCDD'}, 3000);
           }
           else if(entity.type == "trade") {
             this.processTrade(entity);
@@ -41,6 +42,7 @@ $(document).on('turbolinks:load.order_books', function () {
 
       processTrade(trade, data) {
         $("#order_book #trade_table").prepend(trade.html);
+        $(`#trade-${trade.id}`).effect("highlight", {color:'#BCFCDD'}, 3000);
       },
 
 
