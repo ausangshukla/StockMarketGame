@@ -40,9 +40,9 @@
         <td class="d-none d-sm-table-cell"><%= security.pe %></td>
         <td class="d-none d-sm-table-cell"><%= security.last_trade_date %></td>
         <td>
-          <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-success" %>          
-          <%= link_to 'Edit', edit_security_path(security), class: "btn btn-primary" %>
-          <%= link_to 'Order Book', order_book_path(id:security.id, security_id:security.id, symbol: security.symbol), class: "btn btn-primary" %>
+          <%= link_to 'Trade', new_order_path("order[security_id]":security.id), class: "btn btn-sm btn-success" %>          
+          <%= link_to 'Edit', edit_security_path(security), class: "btn btn-sm btn-primary" %>
+          <%= link_to 'Order Book', order_book_path(id:security.id, security_id:security.id, symbol: security.symbol), class: "btn btn-sm btn-success" %>
         </td>
       </tr>
     <% end %>

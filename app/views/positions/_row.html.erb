@@ -1,9 +1,9 @@
 <tr id="position-<%=position.id%>">
     <td><%= link_to position.id, position %></td>
-    <td><%= position.user.full_name %></td>
+    <td class="d-none d-sm-table-cell"><%= position.user.full_name %></td>
     <td><%= position.symbol %></td>
     <td><%= position.quantity %></td>
     <td><%= position.average_cost %></td>
-    <td><%= position.current_value %></td>
-    <td><%= position.eod_value %></td>
+    <td class="d-none d-sm-table-cell"><%= position.current_value %></td>
+    <td class="d-none d-sm-table-cell"><%= position.eod_value %></td>
 </tr>

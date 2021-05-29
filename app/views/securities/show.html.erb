@@ -117,5 +117,5 @@
 </table> 
 
 <%= link_to 'Edit', edit_security_path(@security), class:"btn btn-primary" %> |
-<%= link_to 'Back', securities_path, class:"btn btn-primary" %>
-
+<%= link_to 'Back', securities_path, class:"btn btn-primary" %> |
+<%= link_to 'Order Book', order_book_path(id: @security.id, security_id: @security.id, symbol: @security.symbol), class: "btn btn-success" %>

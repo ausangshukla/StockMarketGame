@@ -2,13 +2,17 @@
     <td><%= link_to "Trade-#{trade.id}", trade %></td>
 
     <td><%= trade.symbol %></td>
-    <td><%= trade.side %></td>
-    <td><%= trade.quantity %></td>
-    <td><%= trade.price %></td>
-    <td><%= trade.user.full_name %></td>
-    <td><%= trade.created_at %></td>
+    <td>
+        <%= trade.side %>
+        <span class="d-sm-none"><br><%= trade.quantity %></span>
+        <span class="d-sm-none"> @ <%= trade.price %></span>  
+    </td>
+    <td class="d-none d-sm-table-cell"><%= trade.quantity %></td>
+    <td class="d-none d-sm-table-cell"><%= trade.price %></td>
+    <td class="d-none d-sm-table-cell"><%= trade.user.full_name %></td>
+    <td class="d-none d-sm-table-cell"><%= trade.created_at %></td>
 
-    <td><%= link_to "Order-#{trade.order_id}", order_path(id: trade.order_id) %></td>
-    <td><%= link_to "Order-#{trade.counterparty_order_id}", order_path(id: trade.counterparty_order_id) %></td>
+    <td class="d-none d-sm-table-cell"><%= link_to "Order-#{trade.order_id}", order_path(id: trade.order_id) %></td>
+    <td class="d-none d-sm-table-cell"><%= link_to "Order-#{trade.counterparty_order_id}", order_path(id: trade.counterparty_order_id) %></td>
 
 </tr>
