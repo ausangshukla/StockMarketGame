@@ -7,25 +7,22 @@
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Id</th>
       <th class="d-none d-sm-table-cell">Internal Id</th>      
-      <th>Symbol</th>
+      <th class="d-none d-sm-table-cell">Trader</th> 
+      <th class="d-none d-sm-table-cell">Price</th>      
+      <th class="d-none d-sm-table-cell">Quantity</th>
+      <th>Side</th>
+      <th>Id</th>  
       <th>Side</th>
       <th class="d-none d-sm-table-cell">Quantity</th>
-      <th class="d-none d-sm-table-cell">Price</th>
+      <th class="d-none d-sm-table-cell">Price</th>      
       <th class="d-none d-sm-table-cell">Trader</th>
-      <th class="d-none d-sm-table-cell">At</th>
-      
-      <th class="d-none d-sm-table-cell">Order</th>
-      <th class="d-none d-sm-table-cell">Counterparty Order</th>
-      
+      <th class="d-none d-sm-table-cell">Internal Id</th>            
     </tr>
   </thead>
 
   <tbody id="trade_table">
-    <% @trades.each do |trade| %>
-      <%=render "/trades/row", {trade:trade}%>
-    <% end %>
+   
   </tbody>
 </table>
 

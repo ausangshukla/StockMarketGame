@@ -40,7 +40,7 @@ $(document).on('turbolinks:load.order_books', function () {
 
       },
 
-      processTrade(trade, data) {
+      processTrade(trade) {
         $("#order_book #trade_table").prepend(trade.html);
         $(`#trade-${trade.id}`).effect("highlight", {color:'#BCFCDD'}, 3000);
       },

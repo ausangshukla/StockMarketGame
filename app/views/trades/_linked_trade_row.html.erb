@@ -1,0 +1,13 @@
+<tr id="trade-<%=buy_trade.transaction_id%>">
+    <td><%= link_to "#{buy_trade.id}", buy_trade %></td>
+    <td class="d-none d-sm-table-cell"><%= buy_trade.user.full_name %></td>
+    <td class="d-none d-sm-table-cell"><%= buy_trade.price %></td>
+    <td class="d-none d-sm-table-cell"><%= buy_trade.quantity %></td>
+    <td><%= buy_trade.side %></td>
+    <td><%= "Trade-#{buy_trade.transaction_id}" %></td>
+    <td><%= sell_trade.side %></td>
+    <td class="d-none d-sm-table-cell"><%= sell_trade.quantity %></td>
+    <td class="d-none d-sm-table-cell"><%= sell_trade.price %></td>
+    <td class="d-none d-sm-table-cell"><%= sell_trade.user.full_name %></td>
+    <td><%= link_to "#{sell_trade.id}", sell_trade %></td>    
+</tr>

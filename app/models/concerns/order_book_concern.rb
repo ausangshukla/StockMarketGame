@@ -15,6 +15,16 @@ module OrderBookConcern
                 }
         end
     
+        def broadcastLinkedTrades(buy_trade, sell_trade)
+    
+            ActionCable.server.broadcast "order_book:security_id:#{buy_trade.security_id}", 
+                {   id: buy_trade.transaction_id,
+                    security_id: buy_trade.security_id,
+                    type: "trade",
+                    html: ApplicationController.render("/trades/_linked_trade_row", 
+                            layout:nil, locals: {buy_trade: buy_trade, sell_trade: sell_trade})
+                }
+        end
 
         def valid_cross?(new_order, existing_order)
             valid = false
@@ -80,6 +90,9 @@ module OrderBookConcern
 
                     sell_order.filled_qty += trade_quantity
                     sell_order.save
+
+                    broadcastLinkedTrades(buy_trade, sell_trade)
+
                 end
 
                 return true

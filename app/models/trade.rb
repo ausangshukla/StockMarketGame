@@ -21,7 +21,7 @@ class Trade < ApplicationRecord
 
     after_save do
         broadcast()
-        OrderBook.broadcast(self)
+        # OrderBook.broadcast(self)
     end
  
      
