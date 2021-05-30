@@ -19,7 +19,7 @@ class OrderSimulator
             # Send it to be processed by the exchange
             Exchange.publish(exchange, order)
             # We dont want to produce too many orders quickly - so sleep here
-            sleep(sleep_time)
+            sleep(1)
         end
     end
 

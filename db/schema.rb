@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_26_143645) do
+ActiveRecord::Schema.define(version: 2021_05_30_052436) do
 
   create_table "action_text_rich_texts", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -152,9 +152,11 @@ ActiveRecord::Schema.define(version: 2021_05_26_143645) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "counterparty_order_id"
+    t.string "transaction_id", limit: 40
     t.index ["counterparty_order_id"], name: "index_trades_on_counterparty_order_id"
     t.index ["order_id"], name: "index_trades_on_order_id"
     t.index ["security_id"], name: "index_trades_on_security_id"
+    t.index ["transaction_id"], name: "index_trades_on_transaction_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|

@@ -54,7 +54,8 @@ module OrderBookConcern
 
                 Trade.transaction do
                     # Create the trade
-                    buy_trade = Trade.create(   symbol: new_order.symbol,
+                    buy_trade = Trade.create(   transaction_id: "#{buy_order.id}-#{sell_order.id}",
+                                                symbol: new_order.symbol,
                                                 quantity: trade_quantity,
                                                 price: price, 
                                                 side: buy_order.side,
@@ -63,7 +64,8 @@ module OrderBookConcern
                                                 order_id: buy_order.id, 
                                                 counterparty_order_id: sell_order.id )
                     
-                    sell_trade = Trade.create(  symbol: new_order.symbol,
+                    sell_trade = Trade.create(  transaction_id: "#{buy_order.id}-#{sell_order.id}",
+                                                symbol: new_order.symbol,
                                                 quantity: trade_quantity,
                                                 price: price, 
                                                 side: sell_order.side,

@@ -1,6 +1,6 @@
 <tr id="trade-<%=trade.id%>">
+    <td><%= link_to "#{trade.transaction_id}", trade %></td>
     <td><%= link_to "Trade-#{trade.id}", trade %></td>
-
     <td><%= trade.symbol %></td>
     <td>
         <%= trade.side %>
